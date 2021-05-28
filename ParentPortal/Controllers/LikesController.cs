@@ -25,5 +25,30 @@ namespace ParentPortal.Controllers
         {
             return Ok(_repo.GetAll());
         }
+
+        [HttpGet("assignment/{id}")]
+        public IActionResult GetLikeByAssignment(int id)
+        {
+            var like = _repo.GetLikeByAssignment(id);
+            if (like == null)
+            {
+                return NotFound("This user id does not exist");
+            }
+            return Ok(like);
+        }
+
+        [HttpPost]
+        public IActionResult AddAssignment(Like like)
+        {
+            _repo.Add(like);
+            return Created($"api/assignments/{like.id}", like);
+        }
+
+        [HttpDelete("{likeid}")]
+        public IActionResult DeleteMessage(int likeid)
+        {
+            _repo.Remove(likeid);
+            return Ok();
+        }
     }
 }
