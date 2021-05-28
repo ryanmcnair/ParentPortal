@@ -22,5 +22,44 @@ namespace ParentPortal.DataAccess
 
             return db.Query<Comment>(sql).ToList();
         }
+        public List<Comment> GetCommentByAssignment(int id)
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT *
+                        FROM comment
+                            WHERE assignment_id = @id";
+
+            return db.Query<Comment>(sql, new { id = id }).ToList();
+        }
+
+        public void Add(Comment comment)
+        {
+            var sql = @"INSERT INTO [dbo].[comment]
+                        ([assignment_id]
+                        ,[user_id]
+                        ,[comment])
+                        OUTPUT INSERTED.id
+                        VALUES
+                        (@assignment_id, @user_id, @comment)";
+
+
+            using var db = new SqlConnection(ConnectionString);
+
+            var id = db.ExecuteScalar<int>(sql, comment);
+
+            comment.id = id;
+        }
+
+        public void Remove(int id)
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"DELETE
+                        FROM comment
+                        WHERE id = @id";
+
+            db.Execute(sql, new { id });
+        }
     }
 }
