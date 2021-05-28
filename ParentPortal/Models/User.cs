@@ -13,6 +13,7 @@ namespace ParentPortal.Models
         public bool is_teacher { get; set; }
         public bool is_parent { get; set; }
         public bool is_admin { get; set; }
+        public int student_id { get; set; }
         public string fb_uid { get; set; }
     }
 }

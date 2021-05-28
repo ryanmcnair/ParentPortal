@@ -25,5 +25,16 @@ namespace ParentPortal.Controllers
         {
             return Ok(_repo.GetAll());
         }
+
+        [HttpGet("{classroomId}")]
+        public IActionResult GetByClassroomID(int classroomId)
+        {
+            var student = _repo.GetByClassroomID(classroomId);
+            if (student == null)
+            {
+                return NotFound("Classroom not found");
+            }
+            return Ok(student);
+        }
     }
 }

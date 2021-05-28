@@ -22,5 +22,16 @@ namespace ParentPortal.DataAccess
 
             return db.Query<Student>(sql).ToList();
         }
+
+        public List<Student> GetByClassroomID(int id)
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT *
+                        FROM student
+	                        WHERE classroom_id = @id";
+
+            return db.Query<Student>(sql, new { id = id }).ToList();
+        }
     }
 }
