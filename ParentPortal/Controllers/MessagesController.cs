@@ -25,5 +25,41 @@ namespace ParentPortal.Controllers
         {
             return Ok(_repo.GetAll());
         }
+
+        [HttpGet("{senderFb_uid}/sent")]
+        public IActionResult GetMessagesBySender(string senderFb_uid)
+        {
+            var message = _repo.GetMessagesBySender(senderFb_uid);
+            if (message == null)
+            {
+                return NotFound("Not found");
+            }
+            return Ok(message);
+        }
+
+        [HttpGet("{recipientFb_uid}/inbox")]
+        public IActionResult GetMessagesByRecipient(string recipientFb_uid)
+        {
+            var message = _repo.GetMessagesByRecipient(recipientFb_uid);
+            if (message == null)
+            {
+                return NotFound("Not found");
+            }
+            return Ok(message);
+        }
+
+        [HttpPost]
+        public IActionResult AddAUser(Message message)
+        {
+            _repo.Add(message);
+            return Created($"api/messages/{message.id}", message);
+        }
+
+        [HttpDelete("{messageId}")]
+        public IActionResult DeleteMessage(int messageId)
+        {
+            _repo.Remove(messageId);
+            return Ok();
+        }
     }
 }
