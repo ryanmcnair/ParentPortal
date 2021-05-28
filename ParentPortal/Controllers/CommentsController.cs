@@ -25,5 +25,30 @@ namespace ParentPortal.Controllers
         {
             return Ok(_repo.GetAll());
         }
+
+        [HttpGet("assignment/{id}")]
+        public IActionResult GetCommentByAssignment(int id)
+        {
+            var comment = _repo.GetCommentByAssignment(id);
+            if (comment == null)
+            {
+                return NotFound("This comment id does not exist");
+            }
+            return Ok(comment);
+        }
+
+        [HttpPost]
+        public IActionResult AddAssignment(Comment comment)
+        {
+            _repo.Add(comment);
+            return Created($"api/comments/{comment.id}", comment);
+        }
+
+        [HttpDelete("{commentid}")]
+        public IActionResult DeleteMessage(int commentid)
+        {
+            _repo.Remove(commentid);
+            return Ok();
+        }
     }
 }
