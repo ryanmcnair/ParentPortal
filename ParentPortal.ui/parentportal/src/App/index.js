@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import firebase from 'firebase';
 import './App.scss';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from '../helpers/routes';
 import fbConnection from '../helpers/data/fbConnection';
+import Navbar from '../components/navbar';
 
 fbConnection();
 
@@ -31,7 +33,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <BrowserRouter>
-          <Routes/>
+          <Navbar user={this.state.user}/>
+          <Routes user={this.state.user}/>
         </BrowserRouter>
       </div>
     );
