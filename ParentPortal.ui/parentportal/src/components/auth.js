@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase/app';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'firebase/auth';
+import { Link } from 'react-router-dom';
 
 export default class Auth extends Component {
   loginClickEvent = (e) => {
@@ -17,6 +18,9 @@ export default class Auth extends Component {
         <button className="btn" onClick={this.loginClickEvent}>
           Google Sign In
         </button>
+        <Link className='btn' to='/register'>
+          Register
+        </Link>
       </div>
     );
   }
