@@ -53,14 +53,16 @@ namespace ParentPortal.DataAccess
         {
             var sql = @"INSERT INTO [dbo].[user]
                                 ([classroom_id]
-                                ,[name]
+                                ,[first_name]
+                                ,[last_name]
                                 ,[is_teacher]
                                 ,[is_parent]
                                 ,[is_admin]
                                 ,[student_id]
-                                ,[fb_uid])
+                                ,[fb_uid]
+                                ,[email])
                         OUTPUT INSERTED.id 
-                        VALUES(@classroom_id, @name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid)";
+                        VALUES(@classroom_id, @first_name, @last_name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid, @email)";
 
             using var db = new SqlConnection(ConnectionString);
 
@@ -86,11 +88,13 @@ namespace ParentPortal.DataAccess
 
             var sql = @"UPDATE [User]
                         SET classroom_id = @classroom_id,
-                            name = @name,
+                            first_name = @first_name,
+                            last_name = @last_name,
 	                        is_teacher = @is_teacher,
 	                        is_parent = @is_parent,
 	                        is_admin = @is_admin,
-                            student_id = @student_id
+                            student_id = @student_id,
+                            email = @email
                         WHERE id = @id";
 
             db.Execute(sql, user);

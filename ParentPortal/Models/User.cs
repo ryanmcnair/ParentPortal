@@ -9,11 +9,13 @@ namespace ParentPortal.Models
     {
         public int id { get; set; }
         public int classroom_id { get; set; }
-        public string name { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
         public bool is_teacher { get; set; }
         public bool is_parent { get; set; }
         public bool is_admin { get; set; }
         public int student_id { get; set; }
         public string fb_uid { get; set; }
+        public string email { get; set; }
     }
 }

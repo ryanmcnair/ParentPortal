@@ -1,5 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { Form } from 'reactstrap';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Form, Button } from 'reactstrap';
+import { baseUrl } from '../helpers/config.json';
 import classroomData from '../helpers/data/classroomData';
 import studentData from '../helpers/data/studentData';
 
@@ -7,7 +13,8 @@ export default class Registration extends React.Component {
     state = {
       classroom: [],
       students: [],
-      selectedClassroom: 0
+      selectedClassroom: 0,
+      selectedStudent: 0
     };
 
     componentDidMount() {
@@ -42,6 +49,28 @@ export default class Registration extends React.Component {
       });
     }
 
+    loginClickEvent = (e) => {
+      e.preventDefault();
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).then((cred) => {
+        const user = cred.additionalUserInfo.profile;
+        if (cred.additionalUserInfo.isNewUser) {
+          const userInfo = {
+            classroom_id: this.state.selectedClassroom,
+            first_name: user.given_name,
+            last_name: user.family_name,
+            is_teacher: false,
+            is_parent: true,
+            is_admin: false,
+            student_id: this.state.selectedStudent,
+            fb_uid: cred.user.uid,
+            email: user.email,
+          };
+          axios.post(`${baseUrl}/users`, userInfo);
+        }
+      });
+    };
+
     render() {
       const classroomOptions = () => this.state.classroom.map((room) => (
         <option key={room.id}
@@ -70,11 +99,15 @@ export default class Registration extends React.Component {
                 </div>
                 <div className='studentChoice'>
                     <h3>Choose your student:</h3>
-                    <select type='number' value={this.state.classroom.id} name='selectedClassroom' onChange={this.handleChange} required>
+                    <select type='number' value={this.state.students.id} name='selectedStudent' onChange={this.handleChange} required>
                     <option value='' disabled selected hidden>Student</option>
                     {studentOptions()}
                     </select>
                 </div>
+                <br/>
+                <Button color="danger">
+                  <Link to='/announcements' href='#' onClick={this.loginClickEvent}>Submit and Sign In</Link>
+                </Button>
             </Form>
             </>
       );
