@@ -22,7 +22,7 @@ class MyNavbar extends React.Component {
 logoutClickEvent = (e) => {
   e.preventDefault();
   firebase.auth().signOut().then(() => {
-    this.props.history.goBack();
+
   });
 }
 

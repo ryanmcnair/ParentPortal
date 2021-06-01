@@ -68,11 +68,13 @@ namespace ParentPortal.Controllers
             var user = _repo.Get(id);
 
             user.classroom_id = userObj.classroom_id;
-            user.name = userObj.name;
+            user.first_name = userObj.first_name;
+            user.last_name = userObj.last_name;
             user.is_teacher = userObj.is_teacher;
             user.is_parent = userObj.is_parent;
             user.is_admin = userObj.is_admin;
             user.student_id = userObj.student_id;
+            user.email = userObj.email;
 
             _repo.Update(user);
             return NoContent();
