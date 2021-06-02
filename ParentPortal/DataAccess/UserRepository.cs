@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using ParentPortal.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace ParentPortal.DataAccess
 {

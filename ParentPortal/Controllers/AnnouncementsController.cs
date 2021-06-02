@@ -26,6 +26,12 @@ namespace ParentPortal.Controllers
             return Ok(_repo.GetAll());
         }
 
+        [HttpGet("parents")]
+        public IActionResult GetParentAnnouncements()
+        {
+            return Ok(_repo.GetParentAnnouncements());
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

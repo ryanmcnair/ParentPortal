@@ -12,7 +12,7 @@ axios.interceptors.request.use(
     // Give me back whatever is the token value in session storage if it is not null
     if (token != null) {
       // attach the token to the Authorization header
-      request.headers.Authorization = `Bearer ${token}`;
+      // request.headers.Authorization = `Bearer ${token}`;
     }
 
     return request;

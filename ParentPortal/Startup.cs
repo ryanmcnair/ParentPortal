@@ -28,6 +28,7 @@ namespace ParentPortal
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton(Configuration);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -44,7 +45,6 @@ namespace ParentPortal
                     };
                 });
 
-            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,12 +53,14 @@ namespace ParentPortal
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+                
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseAuthentication();
 

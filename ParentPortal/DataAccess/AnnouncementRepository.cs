@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ParentPortal.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace ParentPortal.DataAccess
 {
@@ -19,6 +19,17 @@ namespace ParentPortal.DataAccess
 
             var sql = @"SELECT *
                         FROM announcement";
+
+            return db.Query<Announcement>(sql).ToList();
+        }
+
+        public List<Announcement> GetParentAnnouncements()
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT *
+                        FROM announcement
+	                        WHERE staff_only = 0";
 
             return db.Query<Announcement>(sql).ToList();
         }
