@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ParentPortal.DataAccess;
 using ParentPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParentPortal.Controllers
 {

@@ -6,13 +6,15 @@ import Register from '../components/register';
 import Announcements from '../views/announcements';
 import Assignments from '../views/assignments';
 import Messages from '../views/messages';
+import AnnouncementForm from '../views/announcementForm';
 
-export default function Routes({ user }) {
+export default function Routes({ user, dbUser }) {
   return (
         <Switch>
             <Route exact path='/' component={(props) => <Landing user={user} {...props}/>}/>
             <Route exact path='/register' component={(props) => <Register user={user} {...props}/>}/>
-            <Route exact path='/announcements' component={(props) => <Announcements user={user} {...props}/>}/>
+            <Route exact path='/announcements' component={(props) => <Announcements user={user} dbUser={dbUser} {...props}/>}/>
+            <Route exact path='/announcementform' component={(props) => <AnnouncementForm user={user} dbUser={dbUser} {...props}/>}/>
             <Route exact path='/assignments' component={(props) => <Assignments user={user} {...props}/>}/>
             <Route exact path='/messages' component={(props) => <Messages user={user} {...props}/>}/>
         </Switch>
