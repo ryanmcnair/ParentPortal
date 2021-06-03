@@ -14,5 +14,6 @@ namespace ParentPortal.Models
         public DateTime date_added { get; set; }
         public DateTime date_due { get; set; }
         public string text { get; set; }
+        public string title { get; set; }
     }
 }

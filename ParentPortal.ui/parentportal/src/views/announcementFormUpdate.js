@@ -5,12 +5,13 @@ import {
 } from 'reactstrap';
 import announcementData from '../helpers/data/announcementData';
 
-export default class AnnouncementForm extends React.Component {
+export default class AnnouncementFormUpdate extends React.Component {
     state = {
+      announcementId: this.props.announcement?.id || '',
       dbUser: this.props.dbUser,
-      title: '',
-      text: '',
-      pdf_url: '',
+      title: this.props.announcement?.title || '',
+      text: this.props.announcement?.text || '',
+      pdf_url: this.props.announcement?.pdf_url || '',
       staff_only: false
     };
 
@@ -22,8 +23,15 @@ export default class AnnouncementForm extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      announcementData.addAnnouncement(this.state);
-      this.props.history.goBack();
+      announcementData.updateAnnouncement(this.state);
+      this.props.toggle();
+    }
+
+    removeAnnouncement = () => {
+      announcementData.deleteAnnouncement(this.state.announcementId).then(() => {
+        this.props.onUpdate?.(this.state.announcementId);
+      });
+      this.props.toggle();
     }
 
     render() {
@@ -34,15 +42,15 @@ export default class AnnouncementForm extends React.Component {
             <Form style= {{ width: '50%' }} onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <Label>Title</Label>
-                    <Input type='text' name='title' onChange={this.handleChange}/>
+                    <Input type='text' name='title' value={this.state.title} onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Text</Label>
-                    <Input type='textarea' name='text' onChange={this.handleChange}/>
+                    <Input type='textarea' name='text' value={this.state.text} onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label>PDF/Image URL</Label>
-                    <Input type='url' name='pdf_url' onChange={this.handleChange}/>
+                    <Input type='url' name='pdf_url' value={this.state.pdf_url} onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label check>
@@ -52,6 +60,8 @@ export default class AnnouncementForm extends React.Component {
                 </FormGroup>
                 <br/>
                 <Button className='mt-3'>Submit</Button>
+                <br/>
+                <Button className='mt-3' color="danger" onClick={this.removeAnnouncement}>Delete</Button>
             </Form>
             </div>
             </>

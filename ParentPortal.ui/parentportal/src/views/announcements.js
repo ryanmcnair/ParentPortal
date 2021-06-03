@@ -32,12 +32,16 @@ export default class Announcements extends React.Component {
       });
     }
 
+    removeAnnouncements = (e) => {
+      announcementData.deleteAnnouncement(e.target.id);
+    }
+
     render() {
       let announcementRender;
       let buttonRender;
       const { announcements, parentsOnly, dbUser } = this.state;
-      const renderAllAnnouncements = () => announcements.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} />));
-      const renderParentAnnouncements = () => parentsOnly.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} />));
+      const renderAllAnnouncements = () => announcements.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} />));
+      const renderParentAnnouncements = () => parentsOnly.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} />));
       if (dbUser.is_parent === true) {
         announcementRender = renderParentAnnouncements();
       } else {
@@ -50,9 +54,11 @@ export default class Announcements extends React.Component {
       }
       return (
             <>
-            <h1>Announcements Page</h1>
-            {buttonRender}
-            {announcementRender}
+            <div className='announcement-cards'>
+              <h1>Announcements Page</h1>
+              {buttonRender}
+              {announcementRender}
+            </div>
             </>
       );
     }

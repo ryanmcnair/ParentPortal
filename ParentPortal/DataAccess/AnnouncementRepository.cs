@@ -54,10 +54,11 @@ namespace ParentPortal.DataAccess
                         ,[pdf_url]
                         ,[date_added]
                         ,[text]
+                        ,[title]
                         ,[staff_only])
                         OUTPUT INSERTED.id 
                         VALUES
-                        (@school_id, @publisher_id, @pdf_url, CURRENT_TIMESTAMP, @text, @staff_only)";
+                        (@school_id, @publisher_id, @pdf_url, CURRENT_TIMESTAMP, @text, @title, @staff_only)";
 
             using var db = new SqlConnection(ConnectionString);
 
@@ -85,6 +86,7 @@ namespace ParentPortal.DataAccess
                         SET publisher_id = @publisher_id,
                             pdf_url = @pdf_url,
                             text = @text,
+                            title = @title,
                             staff_only = @staff_only
                         WHERE id = @id";
 

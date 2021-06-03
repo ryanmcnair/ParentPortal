@@ -65,6 +65,7 @@ namespace ParentPortal.Controllers
             announcement.publisher_id = announcementObj.publisher_id;
             announcement.pdf_url = announcementObj.pdf_url;
             announcement.text = announcementObj.text;
+            announcement.title = announcementObj.title;
             announcement.staff_only = announcementObj.staff_only;
 
             _repo.Update(announcement);
