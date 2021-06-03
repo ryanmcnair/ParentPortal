@@ -34,6 +34,12 @@ export default class AnnouncementFormUpdate extends React.Component {
       this.props.toggle();
     }
 
+    toggleChange = () => {
+      this.setState({
+        staff_only: !this.state.staff_only,
+      });
+    }
+
     render() {
       return (
             <>
@@ -54,7 +60,7 @@ export default class AnnouncementFormUpdate extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label check>
-                        <Input type='checkbox' name='staff_only'/>{' '}
+                        <Input type='checkbox' name='staff_only' defaultChecked={this.state.staff_only} onChange={this.toggleChange}/>{' '}
                         Staff Only?
                     </Label>
                 </FormGroup>

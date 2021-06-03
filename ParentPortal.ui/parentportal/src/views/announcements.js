@@ -16,6 +16,13 @@ export default class Announcements extends React.Component {
       this.getParentAnnouncements();
     }
 
+    // componentDidUpdate(prevState) {
+    //   if (prevState.announcements !== this.state.announcements) {
+    //     this.getAllAnnouncements();
+    //     this.getParentAnnouncements();
+    //   }
+    // }
+
     getAllAnnouncements = () => {
       announcementData.getAllAnnouncements().then((response) => {
         this.setState({
@@ -40,8 +47,8 @@ export default class Announcements extends React.Component {
       let announcementRender;
       let buttonRender;
       const { announcements, parentsOnly, dbUser } = this.state;
-      const renderAllAnnouncements = () => announcements.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} />));
-      const renderParentAnnouncements = () => parentsOnly.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} />));
+      const renderAllAnnouncements = () => announcements.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} deleteThis={() => this.getAllAnnouncements()}/>));
+      const renderParentAnnouncements = () => parentsOnly.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} deleteThis={() => this.getAllAnnouncements()}/>));
       if (dbUser.is_parent === true) {
         announcementRender = renderParentAnnouncements();
       } else {

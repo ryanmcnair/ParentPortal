@@ -26,6 +26,12 @@ export default class AnnouncementForm extends React.Component {
       this.props.history.goBack();
     }
 
+    toggleChange = () => {
+      this.setState({
+        staff_only: !this.state.staff_only,
+      });
+    }
+
     render() {
       return (
             <>
@@ -46,7 +52,7 @@ export default class AnnouncementForm extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label check>
-                        <Input type='checkbox' name='staff_only'/>{' '}
+                        <Input type='checkbox' name='staff_only' defaultChecked={this.state.staff_only} onChange={this.toggleChange}/>{' '}
                         Staff Only?
                     </Label>
                 </FormGroup>
