@@ -70,6 +70,7 @@ namespace ParentPortal.Controllers
             assignment.pdf_url = assignmentObj.pdf_url;
             assignment.date_due = assignmentObj.date_due;
             assignment.text = assignmentObj.text;
+            assignment.title = assignmentObj.title;
 
             _repo.Update(assignment);
             return NoContent();

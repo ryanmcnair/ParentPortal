@@ -13,6 +13,7 @@ namespace ParentPortal.Models
         public string pdf_url { get; set; }
         public DateTime date_added { get; set; }
         public string text { get; set; }
+        public string title { get; set; }
         public bool staff_only { get; set; }
     }
 }

@@ -54,10 +54,11 @@ namespace ParentPortal.DataAccess
                         ,[pdf_url]
                         ,[date_added]
                         ,[date_due]
-                        ,[text])
+                        ,[text]
+                        ,[title])
                         OUTPUT INSERTED.id 
                         VALUES
-                        (@classroom_id, @teacher_id, @pdf_url, CURRENT_TIMESTAMP, @date_due, @text)";
+                        (@classroom_id, @teacher_id, @pdf_url, CURRENT_TIMESTAMP, @date_due, @text, @title)";
 
             using var db = new SqlConnection(ConnectionString);
 
@@ -84,7 +85,8 @@ namespace ParentPortal.DataAccess
             var sql = @"UPDATE assignment
                         SET pdf_url = @pdf_url,
                         date_due = @date_due,
-                        text = @text
+                        text = @text,
+                        title = @title
                         WHERE id = @id";
 
             db.Execute(sql, assignment);
