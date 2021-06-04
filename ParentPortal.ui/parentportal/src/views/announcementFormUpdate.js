@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
-import announcementData from '../helpers/data/announcementData';
+// import announcementData from '../helpers/data/announcementData';
 
 export default class AnnouncementFormUpdate extends React.Component {
     state = {
@@ -23,15 +23,14 @@ export default class AnnouncementFormUpdate extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      announcementData.updateAnnouncement(this.state);
+      this.props.updateThis(this.state);
       this.props.toggle();
     }
 
-    removeAnnouncement = () => {
-      announcementData.deleteAnnouncement(this.state.announcementId).then(() => {
-        this.props.onUpdate?.(this.state.announcementId);
+    toggleChange = () => {
+      this.setState({
+        staff_only: !this.state.staff_only,
       });
-      this.props.toggle();
     }
 
     render() {
@@ -54,14 +53,14 @@ export default class AnnouncementFormUpdate extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label check>
-                        <Input type='checkbox' name='staff_only'/>{' '}
+                        <Input type='checkbox' name='staff_only' defaultChecked={this.state.staff_only} onChange={this.toggleChange}/>{' '}
                         Staff Only?
                     </Label>
                 </FormGroup>
                 <br/>
                 <Button className='mt-3'>Submit</Button>
                 <br/>
-                <Button className='mt-3' color="danger" onClick={this.removeAnnouncement}>Delete</Button>
+                <Button className='mt-3' color="danger" onClick={() => this.props.deleteThis(this.state.announcementId)}>Delete</Button>
             </Form>
             </div>
             </>

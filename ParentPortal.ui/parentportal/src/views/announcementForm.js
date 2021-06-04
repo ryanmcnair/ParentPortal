@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
-import announcementData from '../helpers/data/announcementData';
+// import announcementData from '../helpers/data/announcementData';
 
 export default class AnnouncementForm extends React.Component {
     state = {
@@ -22,8 +22,14 @@ export default class AnnouncementForm extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      announcementData.addAnnouncement(this.state);
-      this.props.history.goBack();
+      this.props.addThis(this.state);
+      this.props.toggle();
+    }
+
+    toggleChange = () => {
+      this.setState({
+        staff_only: !this.state.staff_only,
+      });
     }
 
     render() {
@@ -46,7 +52,7 @@ export default class AnnouncementForm extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label check>
-                        <Input type='checkbox' name='staff_only'/>{' '}
+                        <Input type='checkbox' name='staff_only' defaultChecked={this.state.staff_only} onChange={this.toggleChange}/>{' '}
                         Staff Only?
                     </Label>
                 </FormGroup>

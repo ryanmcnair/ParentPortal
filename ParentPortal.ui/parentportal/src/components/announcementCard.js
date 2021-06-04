@@ -5,7 +5,9 @@ import React from 'react';
 import Modal from './modal';
 import AnnouncementFormUpdate from '../views/announcementFormUpdate';
 
-export default function AnnouncementCard({ announcement, dbUser }) {
+export default function AnnouncementCard({
+  announcement, dbUser, deleteThis, updateThis
+}) {
   React.useState(dbUser);
   React.useState(announcement);
 
@@ -17,7 +19,7 @@ export default function AnnouncementCard({ announcement, dbUser }) {
           <h3 className='card-title'>{announcement.text}</h3>
           <p>Date added: {announcement.date_added}</p>
           {dbUser.is_admin ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
-                    {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} />}
+                    {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} deleteThis={deleteThis} updateThis={updateThis}/>}
                   </Modal> : <div></div>}
         </div>
         </div>
