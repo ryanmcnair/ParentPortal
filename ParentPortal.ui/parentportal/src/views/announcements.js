@@ -75,10 +75,12 @@ export default class Announcements extends React.Component {
       }
       return (
             <>
-            <div className='announcement-cards'>
-              <h1>Announcements Page</h1>
-              {buttonRender}
-              {announcementRender}
+            <div className='announcementcards'>
+              <h1>Announcements</h1>
+              <div className='rendercards'>
+                {buttonRender}
+                {announcementRender}
+              </div>
             </div>
             </>
       );

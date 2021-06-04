@@ -18,7 +18,8 @@ namespace ParentPortal.DataAccess
             using var db = new SqlConnection(ConnectionString);
 
             var sql = @"SELECT *
-                        FROM announcement";
+                        FROM announcement
+                        ORDER BY date_added DESC";
 
             return db.Query<Announcement>(sql).ToList();
         }
@@ -29,7 +30,8 @@ namespace ParentPortal.DataAccess
 
             var sql = @"SELECT *
                         FROM announcement
-	                        WHERE staff_only = 0";
+	                        WHERE staff_only = 0
+                            ORDER BY date_added DESC";
 
             return db.Query<Announcement>(sql).ToList();
         }
