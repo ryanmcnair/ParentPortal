@@ -1,4 +1,5 @@
-.announcement-cards {
-    display: grid;
-    justify-content: right;
+.announcementcards {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
 }
