@@ -12,7 +12,7 @@ export default function AnnouncementCard({
   React.useState(announcement);
 
   return (
-    <div style= {{ width: '50%' }}>
+    <div>
         <div className='card m-2'>
           <img src={announcement.pdf_url} alt=''></img>
           <h1>{announcement.title}</h1>
