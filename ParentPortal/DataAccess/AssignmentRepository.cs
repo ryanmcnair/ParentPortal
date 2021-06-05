@@ -41,7 +41,8 @@ namespace ParentPortal.DataAccess
 
             var sql = @"SELECT *
                         FROM assignment
-                            WHERE classroom_id = @id";
+                            WHERE classroom_id = @id
+                            ORDER BY date_added DESC";
 
             return db.Query<Assignment>(sql, new { id = id }).ToList();
         }
@@ -52,13 +53,12 @@ namespace ParentPortal.DataAccess
                         ([classroom_id]
                         ,[teacher_id]
                         ,[pdf_url]
-                        ,[date_added]
                         ,[date_due]
                         ,[text]
                         ,[title])
                         OUTPUT INSERTED.id 
                         VALUES
-                        (@classroom_id, @teacher_id, @pdf_url, CURRENT_TIMESTAMP, @date_due, @text, @title)";
+                        (@classroom_id, @teacher_id, @pdf_url, @date_due, @text, @title)";
 
             using var db = new SqlConnection(ConnectionString);
 

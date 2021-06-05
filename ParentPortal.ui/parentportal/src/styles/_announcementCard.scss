@@ -1,5 +1,11 @@
 .announcementcards {
    display: flex;
    flex-direction: column;
-   justify-content: center;
+  justify-content: center;
+}
+
+.rendercards {
+   width: 50%;
+   border: 15px black;
+   background-color: white;
 }
