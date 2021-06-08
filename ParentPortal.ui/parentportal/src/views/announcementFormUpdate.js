@@ -1,9 +1,12 @@
+/* eslint-disable camelcase */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
-// import announcementData from '../helpers/data/announcementData';
 
 export default class AnnouncementFormUpdate extends React.Component {
     state = {
@@ -16,9 +19,20 @@ export default class AnnouncementFormUpdate extends React.Component {
     };
 
     handleChange = (e) => {
-      this.setState({
-        [e.target.name]: e.target.value
-      });
+      if (e.target.name === 'pdf_url') {
+        this.setState({ pdf_url: '' });
+        const storageRef = firebase.storage().ref();
+        const imageRef = storageRef.child(`parent-portal/${this.state.userId}/${Date.now()}${e.target.files[0].name}`);
+        imageRef.put(e.target.files[0]).then((snapshot) => {
+          snapshot.ref.getDownloadURL().then((pdf_url) => {
+            this.setState({ pdf_url });
+          });
+        });
+      } else {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+      }
     }
 
     handleSubmit = (e) => {
@@ -49,7 +63,7 @@ export default class AnnouncementFormUpdate extends React.Component {
                 </FormGroup>
                 <FormGroup>
                     <Label>PDF/Image URL</Label>
-                    <Input type='url' name='pdf_url' value={this.state.pdf_url} onChange={this.handleChange}/>
+                    <Input type='file' name='pdf_url' onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label check>

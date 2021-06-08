@@ -10,7 +10,6 @@ const getAllAssignmentsByClassroom = (id) => new Promise((resolve, reject) => {
 });
 
 const addAssignment = (data) => new Promise((resolve, reject) => {
-  console.warn('assignment data', data);
   const newObj = {
     classroom_id: data.dbUser.classroom_id,
     teacher_id: data.dbUser.id,
@@ -22,4 +21,21 @@ const addAssignment = (data) => new Promise((resolve, reject) => {
   axios.post(`${assignmentsUrl}`, newObj).then(resolve).catch((error) => reject(error));
 });
 
-export default { getAllAssignmentsByClassroom, addAssignment };
+const updateAssignment = (data) => new Promise((resolve, reject) => {
+  const newObj = {
+    assignmentId: data.assignmentId,
+    classroom_id: data.dbUser.classroom_id,
+    teacher_id: data.dbUser.id,
+    pdf_url: data.pdf_url,
+    date_due: data.date_due,
+    text: data.text,
+    title: data.title
+  };
+  axios.patch(`${assignmentsUrl}/${data.assignmentId}/update`, newObj).then(resolve).catch((error) => reject(error));
+});
+
+const deleteAssignment = (id) => axios.delete(`${assignmentsUrl}/${id}`);
+
+export default {
+  getAllAssignmentsByClassroom, addAssignment, updateAssignment, deleteAssignment
+};
