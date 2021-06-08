@@ -2,19 +2,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
-import firebase from 'firebase/app';
-import 'firebase/storage';
 
-export default class AnnouncementForm extends React.Component {
+export default class AssignmentFormUpdate extends React.Component {
     state = {
+      assignmentId: this.props.assignment?.id || '',
       dbUser: this.props.dbUser,
-      title: '',
-      text: '',
-      pdf_url: '',
-      staff_only: false
+      title: this.props.assignment?.title || '',
+      text: this.props.assignment?.text || '',
+      pdf_url: this.props.assignment?.pdf_url || '',
+      date_due: this.props.assignment?.date_due || ''
     };
 
     handleChange = (e) => {
@@ -36,44 +37,38 @@ export default class AnnouncementForm extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      this.props.addThis(this.state);
+      this.props.updateThis(this.state);
       this.props.toggle();
-    }
-
-    toggleChange = () => {
-      this.setState({
-        staff_only: !this.state.staff_only,
-      });
     }
 
     render() {
       return (
             <>
-            <h1>Announcements</h1>
-            <div className='announcement-form'>
-            <Form style= {{ width: '50%' }} onSubmit={this.handleSubmit}>
+            <div className='assignment-form'>
+            <Form style= {{ width: '75%' }} onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <Label>Title</Label>
-                    <Input type='text' name='title' onChange={this.handleChange}/>
+                    <Input type='text' name='title' value={this.state.title} onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Text</Label>
-                    <Input type='textarea' name='text' onChange={this.handleChange}/>
+                    <Input type='textarea' name='text' value={this.state.text} onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
-                    <Label>Add image:</Label>
+                    <Label>PDF/Image:</Label>
                     <br/>
                     <Input type='file' name='pdf_url' onChange={this.handleChange}/>
                 </FormGroup>
-                <br/>
+                <br />
                 <FormGroup>
-                    <Label check>
-                        <Input type='checkbox' name='staff_only' defaultChecked={this.state.staff_only} onChange={this.toggleChange}/>{' '}
-                        Staff Only?
-                    </Label>
+                    <Label>Date Due:</Label>
+                    <br/>
+                    <input type='date' name='date_due' value={this.state.date_due} onChange={this.handleChange}/>
                 </FormGroup>
                 <br/>
                 <Button className='mt-3'>Submit</Button>
+                <br/>
+                <Button className='mt-3' color="danger" onClick={() => this.props.deleteThis(this.state.assignmentId)}>Delete</Button>
             </Form>
             </div>
             </>

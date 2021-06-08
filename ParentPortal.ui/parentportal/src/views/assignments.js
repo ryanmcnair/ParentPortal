@@ -3,6 +3,7 @@ import React from 'react';
 import assignmentData from '../helpers/data/assignmentData';
 import Modal from '../components/modal';
 import AssignmentForm from './assignmentForm';
+import AssignmentCard from '../components/assignmentCards';
 
 export default class Assignments extends React.Component {
     state = {
@@ -23,17 +24,25 @@ export default class Assignments extends React.Component {
     }
 
     addAssignment = (things) => {
-      console.warn('assignment parent things', things);
-      assignmentData.addAssignment(things).then((response) => {
-        this.setState({
-          assignments: response
-        });
+      assignmentData.addAssignment(things).then(() => {
+        this.getClassroomAssignments();
       });
-      this.getClassroomAssignments();
+    }
+
+    removeAssignments = (id) => {
+      assignmentData.deleteAssignment(id).then(() => {
+        this.getClassroomAssignments();
+      });
+    }
+
+    updateAssignments = (update) => {
+      assignmentData.updateAssignment(update).then(() => {
+        this.getClassroomAssignments();
+      });
     }
 
     render() {
-      const { dbUser } = this.state;
+      const { dbUser, assignments } = this.state;
       let buttonRender;
       if (dbUser.is_teacher === true) {
         buttonRender = (<Modal title={'Add Assignment'} buttonLabel={'Add Assignment'}>
@@ -42,10 +51,15 @@ export default class Assignments extends React.Component {
       } else {
         buttonRender = (<div></div>);
       }
+      const renderAllAssignments = () => assignments?.map((assignment) => (<AssignmentCard key={assignment.id} assignment={assignment} dbUser={dbUser} deleteThis={this.removeAssignments} updateThis={this.updateAssignments} />));
       return (
             <>
             <h1>Assignments</h1>
-            {buttonRender}
+            <div className='rendercards'>
+              {buttonRender}
+              {renderAllAssignments()}
+
+            </div>
             </>
       );
     }
