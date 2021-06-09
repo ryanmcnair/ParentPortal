@@ -1,15 +1,16 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Form, Button } from 'reactstrap';
 import { baseUrl } from '../helpers/config.json';
 import classroomData from '../helpers/data/classroomData';
 import studentData from '../helpers/data/studentData';
 
-export default class Registration extends React.Component {
+class Registration extends React.Component {
     state = {
       classroom: [],
       students: [],
@@ -69,6 +70,7 @@ export default class Registration extends React.Component {
           axios.post(`${baseUrl}/users`, userInfo);
         }
       });
+      this.props.history.push('/');
     };
 
     render() {
@@ -105,11 +107,13 @@ export default class Registration extends React.Component {
                     </select>
                 </div>
                 <br/>
-                <Button color="danger">
-                  <Link to='/announcements' href='#' onClick={this.loginClickEvent}>Submit and Sign In</Link>
+                <Button color="danger" href='#' onClick={this.loginClickEvent}>
+                  Submit and Sign In
                 </Button>
             </Form>
             </>
       );
     }
 }
+
+export default withRouter(Registration);

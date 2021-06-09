@@ -11,7 +11,7 @@ import {
   NavItem,
   NavbarText,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 // pass user as parameter when user auth is setup
 class MyNavbar extends React.Component {
@@ -22,8 +22,8 @@ class MyNavbar extends React.Component {
 logoutClickEvent = (e) => {
   e.preventDefault();
   firebase.auth().signOut().then(() => {
-
   });
+  this.props.history.push('/');
 }
 
   toggle = () => {
@@ -71,4 +71,4 @@ logoutClickEvent = (e) => {
   }
 }
 
-export default MyNavbar;
+export default withRouter(MyNavbar);

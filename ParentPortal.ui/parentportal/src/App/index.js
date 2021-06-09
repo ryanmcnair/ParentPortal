@@ -51,7 +51,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <BrowserRouter>
-          <Navbar user={this.state.user} dbUser={this.state.dbUser} />
+          <Navbar user={this.state.user} dbUser={this.state.dbUser} {...this.props} />
           <Routes user={this.state.user} dbUser={this.state.dbUser} />
         </BrowserRouter>
       </div>
