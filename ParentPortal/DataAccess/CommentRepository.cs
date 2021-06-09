@@ -22,15 +22,17 @@ namespace ParentPortal.DataAccess
 
             return db.Query<Comment>(sql).ToList();
         }
-        public List<Comment> GetCommentByAssignment(int id)
+        public List<CommentUser> GetCommentByAssignment(int id)
         {
             using var db = new SqlConnection(ConnectionString);
 
-            var sql = @"SELECT *
-                        FROM comment
+            var sql = @"SELECT c.*, u.first_name, u.last_name
+                        FROM comment c
+                            JOIN [user] u
+	                        ON c.user_id = u.id
                             WHERE assignment_id = @id";
 
-            return db.Query<Comment>(sql, new { id = id }).ToList();
+            return db.Query<CommentUser>(sql, new { id = id }).ToList();
         }
 
         public void Add(Comment comment)
