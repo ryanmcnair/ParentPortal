@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { Button } from 'reactstrap';
 import Modal from './modal';
 import AssignmentFormUpdate from '../views/assignmentFormUpdate';
 import commentData from '../helpers/data/commentData';
@@ -31,6 +32,12 @@ export default class AssignmentCard extends React.Component {
     });
   }
 
+  removeComment = (id) => {
+    commentData.deleteComment(id).then(() => {
+      this.getComments(this.state.assignment.id);
+    });
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -52,6 +59,7 @@ export default class AssignmentCard extends React.Component {
     <>
     <h5>{comment.first_name} {comment.last_name}:</h5>
     <p key={comment.id} >{comment.comment}</p>
+    {dbUser.last_name === comment.last_name ? <Button className='btn-danger' onClick={() => this.removeComment(comment.id)}>X</Button> : <div></div>}
     </>));
     return (
     <div>

@@ -18,6 +18,8 @@ const addComment = (data) => new Promise((resolve, reject) => {
   axios.post(`${commentsUrl}`, newObj).then(resolve).catch((error) => reject(error));
 });
 
+const deleteComment = (id) => axios.delete(`${commentsUrl}/${id}`);
+
 export default {
-  getCommentsByAssignment, addComment
+  getCommentsByAssignment, addComment, deleteComment
 };
