@@ -49,6 +49,17 @@ namespace ParentPortal.Controllers
             return Ok(user);
         }
 
+        [HttpGet("unregistered")]
+        public IActionResult GetUnregisteredUsers()
+        {
+            var user = _repo.GetUnregisteredUsers();
+            if (user == null)
+            {
+                return NotFound("This user id does not exist");
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult AddAUser(User user)
         {
@@ -63,7 +74,7 @@ namespace ParentPortal.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}/update")]
+        [HttpPatch("{id}/update")]
         public IActionResult UpdateUser(int id, User userObj)
         {
             var user = _repo.Get(id);
@@ -76,6 +87,7 @@ namespace ParentPortal.Controllers
             user.is_admin = userObj.is_admin;
             user.student_id = userObj.student_id;
             user.email = userObj.email;
+            user.is_registered = user.is_registered;
 
             _repo.Update(user);
             return NoContent();

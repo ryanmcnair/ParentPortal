@@ -5,18 +5,26 @@ import { Button } from 'reactstrap';
 import Modal from './modal';
 import AssignmentFormUpdate from '../views/assignmentFormUpdate';
 import commentData from '../helpers/data/commentData';
+import likeData from '../helpers/data/likeData';
 
 export default class AssignmentCard extends React.Component {
   state = {
     dbUser: this.props.dbUser,
     assignment: this.props.assignment,
     comments: [],
-    comment: ''
+    comment: '',
+    likes: [],
+    like: '',
+    userLikes: ''
   }
 
   componentDidMount() {
     this.getComments(this.state.assignment.id);
+    this.getLikes(this.state.assignment.id);
+    this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
   }
+
+  // Comments stuff below:
 
   getComments = (id) => {
     commentData.getCommentsByAssignment(id).then((response) => {
@@ -50,10 +58,68 @@ export default class AssignmentCard extends React.Component {
     this.setState({ comment: '' });
   }
 
+  // Likes stuff is below this line:
+
+  getLikes = (id) => {
+    likeData.getLikesByAssignment(id).then((response) => {
+      this.setState({
+        likes: response
+      });
+    });
+  }
+
+  getUserLikes = (assignmentid, userid) => {
+    likeData.getLikesByAssignmentAndUser(assignmentid, userid).then((response) => {
+      this.setState({
+        userLikes: response
+      });
+    });
+  }
+
+  postLike = (like) => {
+    likeData.addLike(like).then(() => {
+      this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
+      this.getLikes(this.state.assignment.id);
+    });
+  }
+
+  deleteLike = (id) => {
+    likeData.deleteLike(id).then(() => {
+      this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
+      this.getLikes(this.state.assignment.id);
+    });
+  }
+
+  handleLikeSubmit = (e) => {
+    e.preventDefault();
+    this.postLike(this.state);
+  }
+
+  handleLikeDelete = (e) => {
+    e.preventDefault();
+    this.deleteLike(this.state.userLikes[0].id);
+  }
+
   render() {
-    const { assignment, dbUser, comments } = this.state;
+    const {
+      assignment, dbUser, comments, userLikes, likes
+    } = this.state;
     const dateAdded = new Date(assignment.date_added);
     const dateDue = new Date(assignment.date_due);
+
+    // const checkLikeUsers = (like) => like.user_id === dbUser.id;
+
+    const renderLikes = () => userLikes?.map((like) => (
+      <>
+      <div key={like.id} className='fas fa-check'></div>
+      </>
+    ));
+
+    const renderLikesNames = () => likes?.map((like) => (
+      <>
+      <div key={like.id}>{like.first_name} {like.last_name}</div>
+      </>
+    ));
 
     const renderComments = () => comments?.map((comment) => (
     <>
@@ -72,6 +138,12 @@ export default class AssignmentCard extends React.Component {
           {dbUser.is_teacher ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
                     {<AssignmentFormUpdate dbUser={dbUser} assignment={assignment} deleteThis={this.props.deleteThis} updateThis={this.props.updateThis}/>}
                   </Modal> : <div></div>}
+          {dbUser.is_teacher ? <Modal title={'View Acknowledgments'} buttonLabel={'View Acknowledgments'}>
+                    <div>{renderLikesNames()}</div>
+                  </Modal> : <div></div>}
+          {userLikes?.length
+            ? <Button onClick={this.handleLikeDelete} color='success'>{renderLikes()}</Button>
+            : <Button color='warning' onClick={this.handleLikeSubmit}>Acknowledge</Button>}
           <div className='comment-section'>
             <h3>Comments</h3>
             <p>{renderComments()}</p>

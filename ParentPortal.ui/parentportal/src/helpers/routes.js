@@ -7,6 +7,7 @@ import Announcements from '../views/announcements';
 import Assignments from '../views/assignments';
 import Messages from '../views/messages';
 import Home from '../views/home';
+import Profile from '../views/profile';
 
 export default function Routes({ user, dbUser }) {
   return (
@@ -16,6 +17,7 @@ export default function Routes({ user, dbUser }) {
             <Route exact path='/announcements' component={(props) => <Announcements user={user} dbUser={dbUser} {...props}/>}/>
             <Route exact path='/assignments' component={(props) => <Assignments user={user} dbUser={dbUser} {...props}/>}/>
             <Route exact path='/messages' component={(props) => <Messages user={user} {...props}/>}/>
+            <Route exact path='/profile' component={(props) => <Profile user={user} dbUser={dbUser} {...props}/>}/>
         </Switch>
   );
 }

@@ -13,7 +13,8 @@ fbConnection();
 class App extends React.Component {
   state = {
     user: null,
-    dbUser: null
+    dbUser: null,
+    loading: true
   };
 
   componentDidMount() {
@@ -30,10 +31,6 @@ class App extends React.Component {
       }
     });
   }
-
-  // componentDidUpdate() {
-  //   this.setUserInState(this.state.user.uid);
-  // }
 
   setUserInState = (fbUid) => {
     userData.getUserByFBUid(fbUid).then((response) => {

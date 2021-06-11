@@ -22,7 +22,6 @@ const addAssignment = (data) => new Promise((resolve, reject) => {
 });
 
 const updateAssignment = (data) => new Promise((resolve, reject) => {
-  console.warn(data);
   const newObj = {
     assignmentId: data.assignmentId,
     classroom_id: data.dbUser.classroom_id,

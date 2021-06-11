@@ -22,6 +22,16 @@ namespace ParentPortal.DataAccess
             return db.Query<User>(sql).ToList();
         }
 
+        public List<User> GetUnregisteredUsers()
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT *
+                        FROM [user]";
+
+            return db.Query<User>(sql).ToList();
+        }
+
         public User Get(int id)
         {
             var sql = @"SELECT *
@@ -59,9 +69,10 @@ namespace ParentPortal.DataAccess
                                 ,[is_admin]
                                 ,[student_id]
                                 ,[fb_uid]
-                                ,[email])
+                                ,[email]
+                                ,[is_registered])
                         OUTPUT INSERTED.id 
-                        VALUES(@classroom_id, @first_name, @last_name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid, @email)";
+                        VALUES(@classroom_id, @first_name, @last_name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid, @email, @is_registered)";
 
             using var db = new SqlConnection(ConnectionString);
 
@@ -93,7 +104,8 @@ namespace ParentPortal.DataAccess
 	                        is_parent = @is_parent,
 	                        is_admin = @is_admin,
                             student_id = @student_id,
-                            email = @email
+                            email = @email,
+                            is_registered = @is_registered
                         WHERE id = @id";
 
             db.Execute(sql, user);

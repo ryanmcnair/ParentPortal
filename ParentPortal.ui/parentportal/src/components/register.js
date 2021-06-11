@@ -66,6 +66,7 @@ class Registration extends React.Component {
             student_id: this.state.selectedStudent,
             fb_uid: cred.user.uid,
             email: user.email,
+            is_registered: false,
           };
           axios.post(`${baseUrl}/users`, userInfo);
         }

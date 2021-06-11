@@ -17,5 +17,6 @@ namespace ParentPortal.Models
         public int student_id { get; set; }
         public string fb_uid { get; set; }
         public string email { get; set; }
+        public bool is_registered { get; set; }
     }
 }

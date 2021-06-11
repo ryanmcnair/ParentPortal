@@ -37,6 +37,17 @@ namespace ParentPortal.Controllers
             return Ok(like);
         }
 
+        [HttpGet("assignment/{assignmentid}/{userid}")]
+        public IActionResult GetLikeByAssignmentAndUser(int assignmentid, int userid)
+        {
+            var like = _repo.GetLikeByAssignmentAndUser(assignmentid, userid);
+            if (like == null)
+            {
+                return NotFound("This user id does not exist");
+            }
+            return Ok(like);
+        }
+
         [HttpPost]
         public IActionResult AddAssignment(Like like)
         {
