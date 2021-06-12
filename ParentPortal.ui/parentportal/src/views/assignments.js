@@ -15,6 +15,9 @@ export default class Assignments extends React.Component {
 
     componentDidMount() {
       this.getClassroomAssignments();
+      this.setState({
+        dbUser: this.props.dbUser
+      });
     }
 
     setLoading = () => {

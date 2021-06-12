@@ -38,6 +38,17 @@ namespace ParentPortal.Controllers
             return Ok(user);
         }
 
+        [HttpGet("profile/{id}")]
+        public IActionResult GetUserProfile(int id)
+        {
+            var user = _repo.GetUserProfile(id);
+            if (user == null)
+            {
+                return NotFound("This user id does not exist");
+            }
+            return Ok(user);
+        }
+
         [HttpGet("fb/{fb_uid}")]
         public IActionResult GetUserByFBUid(string fb_uid)
         {
@@ -86,8 +97,9 @@ namespace ParentPortal.Controllers
             user.is_parent = userObj.is_parent;
             user.is_admin = userObj.is_admin;
             user.student_id = userObj.student_id;
+            user.fb_uid = userObj.fb_uid;
             user.email = userObj.email;
-            user.is_registered = user.is_registered;
+            user.is_registered = userObj.is_registered;
 
             _repo.Update(user);
             return NoContent();
