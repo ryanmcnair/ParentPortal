@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ParentPortal.Models
 {
-    public class User
+    public class UserStudent
     {
         public int id { get; set; }
         public int classroom_id { get; set; }
@@ -18,5 +18,7 @@ namespace ParentPortal.Models
         public string fb_uid { get; set; }
         public string email { get; set; }
         public bool is_registered { get; set; }
+        public string student_name { get; set; }
+        public string class_name { get; set; }
     }
 }

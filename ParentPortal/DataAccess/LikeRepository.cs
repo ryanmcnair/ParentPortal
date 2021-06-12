@@ -23,15 +23,31 @@ namespace ParentPortal.DataAccess
             return db.Query<Like>(sql).ToList();
         }
 
-        public List<Like> GetLikeByAssignment(int id)
+        public List<LikeUser> GetLikeByAssignment(int id)
         {
             using var db = new SqlConnection(ConnectionString);
 
-            var sql = @"SELECT *
-                        FROM [like]
-                            WHERE assignment_id = @id";
+            var sql = @"SELECT l.*, u.first_name, u.last_name
+                        FROM [like] l
+	                        JOIN [user] u
+	                        ON l.user_id = u.id
+	                            WHERE l.assignment_id = @id";
 
-            return db.Query<Like>(sql, new { id = id }).ToList();
+            return db.Query<LikeUser>(sql, new { id = id }).ToList();
+        }
+
+        public List<LikeUser> GetLikeByAssignmentAndUser(int assignmentid, int userid)
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT l.*, u.first_name, u.last_name
+                        FROM [like] l
+	                        JOIN [user] u
+	                        ON l.user_id = u.id
+	                            WHERE l.assignment_id = @assignmentid
+                                AND l.user_id = @userid";
+
+            return db.Query<LikeUser>(sql, new { assignmentid = assignmentid, userid = userid }).ToList();
         }
 
         public void Add(Like like)

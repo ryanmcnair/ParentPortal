@@ -4,15 +4,26 @@ import assignmentData from '../helpers/data/assignmentData';
 import Modal from '../components/modal';
 import AssignmentForm from './assignmentForm';
 import AssignmentCard from '../components/assignmentCards';
+import Loader from '../components/loader';
 
 export default class Assignments extends React.Component {
     state = {
       dbUser: this.props.dbUser,
-      assignments: []
+      assignments: [],
+      loading: true
     };
 
     componentDidMount() {
       this.getClassroomAssignments();
+      this.setState({
+        dbUser: this.props.dbUser
+      });
+    }
+
+    setLoading = () => {
+      this.timer = setInterval(() => {
+        this.setState({ loading: false });
+      }, 1000);
     }
 
     getClassroomAssignments = () => {
@@ -21,6 +32,7 @@ export default class Assignments extends React.Component {
           assignments: response
         });
       });
+      this.setLoading();
     }
 
     addAssignment = (things) => {
@@ -38,11 +50,12 @@ export default class Assignments extends React.Component {
     updateAssignments = (update) => {
       assignmentData.updateAssignment(update).then(() => {
         this.getClassroomAssignments();
+        this.setLoading();
       });
     }
 
     render() {
-      const { dbUser, assignments } = this.state;
+      const { dbUser, assignments, loading } = this.state;
       let buttonRender;
       if (dbUser.is_teacher === true) {
         buttonRender = (<Modal title={'Add Assignment'} buttonLabel={'Add Assignment'}>
@@ -53,13 +66,17 @@ export default class Assignments extends React.Component {
       }
       const renderAllAssignments = () => assignments?.map((assignment) => (<AssignmentCard key={assignment.id} assignment={assignment} dbUser={dbUser} deleteThis={this.removeAssignments} updateThis={this.updateAssignments} />));
       return (
-            <>
+        <>
+        { loading ? (<Loader />)
+          : (<>
             <h1>Assignments</h1>
             <div className='rendercards'>
               {buttonRender}
               {renderAllAssignments()}
 
             </div>
+            </>)
+            }
             </>
       );
     }

@@ -22,6 +22,21 @@ namespace ParentPortal.DataAccess
             return db.Query<User>(sql).ToList();
         }
 
+        public List<UserStudent> GetUnregisteredUsers()
+        {
+            using var db = new SqlConnection(ConnectionString);
+
+            var sql = @"SELECT u.*, s.student_name, c.class_name
+                        FROM [user] u
+	                        FULL JOIN student s
+	                        ON u.student_id = s.id
+	                        FULL JOIN classroom c
+	                        ON u.classroom_id = c.id
+	                            WHERE is_registered = 0";
+
+            return db.Query<UserStudent>(sql).ToList();
+        }
+
         public User Get(int id)
         {
             var sql = @"SELECT *
@@ -31,6 +46,23 @@ namespace ParentPortal.DataAccess
             using var db = new SqlConnection(ConnectionString);
 
             var singleUser = db.QueryFirstOrDefault<User>(sql, new { id = id });
+
+            return singleUser;
+        }
+
+        public UserStudent GetUserProfile(int id)
+        {
+            var sql = @"SELECT u.*, s.student_name, c.class_name
+                        FROM [user] u
+	                        FULL JOIN student s
+	                        ON u.student_id = s.id
+	                        FULL JOIN classroom c
+	                        ON u.classroom_id = c.id
+                                WHERE u.id = @id";
+
+            using var db = new SqlConnection(ConnectionString);
+
+            var singleUser = db.QueryFirstOrDefault<UserStudent>(sql, new { id = id });
 
             return singleUser;
         }
@@ -59,9 +91,10 @@ namespace ParentPortal.DataAccess
                                 ,[is_admin]
                                 ,[student_id]
                                 ,[fb_uid]
-                                ,[email])
+                                ,[email]
+                                ,[is_registered])
                         OUTPUT INSERTED.id 
-                        VALUES(@classroom_id, @first_name, @last_name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid, @email)";
+                        VALUES(@classroom_id, @first_name, @last_name, @is_teacher, @is_parent, @is_admin, @student_id, @fb_uid, @email, @is_registered)";
 
             using var db = new SqlConnection(ConnectionString);
 
@@ -93,7 +126,9 @@ namespace ParentPortal.DataAccess
 	                        is_parent = @is_parent,
 	                        is_admin = @is_admin,
                             student_id = @student_id,
-                            email = @email
+                            fb_uid = @fb_uid,
+                            email = @email,
+                            is_registered = @is_registered
                         WHERE id = @id";
 
             db.Execute(sql, user);

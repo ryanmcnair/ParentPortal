@@ -12,11 +12,13 @@ import {
   NavbarText,
 } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
+import Loader from './loader';
 
 // pass user as parameter when user auth is setup
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
+    loading: true
   }
 
 logoutClickEvent = (e) => {
@@ -26,14 +28,27 @@ logoutClickEvent = (e) => {
   this.props.history.push('/');
 }
 
+componentDidMount() {
+  this.setLoading();
+}
+
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
+  setLoading = () => {
+    this.timer = setInterval(() => {
+      this.setState({ loading: false });
+    }, 1000);
+  }
+
   render() {
-    const { user } = this.props;
+    const { user, dbUser } = this.props;
+    const { loading } = this.state;
     return (
-    <div>
+      <>
+      { loading ? (<Loader />)
+        : (<div>
       <Navbar color="warning" expand="lg">
         <NavbarBrand className='gradient-text'>
           <Link to='/' className='nav-link'>Parent Portal</Link>
@@ -47,13 +62,19 @@ logoutClickEvent = (e) => {
               )}
             </NavItem>
             <NavItem>
-            {user && (
+            {/* !dbUser.is_admin */}
+            {!dbUser.is_admin && (
                 <Link to='/assignments' className="nav-link m-2" href="#">Assignments</Link>
             )}
             </NavItem>
             <NavItem>
             {user && (
               <Link to='/messages' className="nav-link m-2" href="#">Messages</Link>
+            )}
+            </NavItem>
+            <NavItem>
+            {user && (
+              <Link to='/profile' className="nav-link m-2" href="#">Profile</Link>
             )}
             </NavItem>
           </Nav>
@@ -66,7 +87,9 @@ logoutClickEvent = (e) => {
           </NavbarText>
         </Collapse>
       </Navbar>
-    </div>
+    </div>)
+        }
+        </>
     );
   }
 }
