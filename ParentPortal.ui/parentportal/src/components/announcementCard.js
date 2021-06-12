@@ -20,7 +20,7 @@ export default function AnnouncementCard({
           <h1>{announcement.title}</h1>
           <h3 className='card-title'>{announcement.text}</h3>
           <p>Date added: {dateAdded.toDateString()}</p>
-          {dbUser.is_admin ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
+          {dbUser?.is_admin ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
                     {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} deleteThis={deleteThis} updateThis={updateThis}/>}
                   </Modal> : <div></div>}
         </div>

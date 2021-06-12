@@ -12,7 +12,7 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
       this.getTheUnregisteredUsers();
-      this.getUsersByTheirId(this.state.dbUser.id);
+      this.getUsersByTheirId(this.state.dbUser?.id);
     }
 
     getTheUnregisteredUsers = () => {
@@ -47,7 +47,7 @@ export default class Profile extends React.Component {
       const { unregisteredUsers, dbUser, profile } = this.state;
       const renderApprovals = () => unregisteredUsers?.map((user) => (
             <>
-            <div key={user.id}>Parent: {user.first_name} {user.last_name} Student: {user.student_name} Class: {user.class_name}</div>
+            <div key={user.id}>Parent: {user.first_name} {user.last_name} --- Student: {user.student_name} --- Class: {user.class_name}</div>
             <p></p>
             <p></p>
             <p></p>
@@ -57,7 +57,7 @@ export default class Profile extends React.Component {
       return (
             <>
             <h1>Profile Page</h1>
-            {dbUser.is_admin ? <div>{renderApprovals()}</div> : <div></div>}
+            {dbUser?.is_admin ? <div>{renderApprovals()}</div> : <div></div>}
             <div className='profile-card'>
                 <p>Name: {profile.first_name} {profile.last_name}</p>
                 <p>Email address: {profile.email}</p>

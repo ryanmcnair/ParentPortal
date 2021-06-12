@@ -18,7 +18,6 @@ import Loader from './loader';
 class MyNavbar extends React.Component {
   state = {
     isOpen: false,
-    loading: true
   }
 
 logoutClickEvent = (e) => {
@@ -28,18 +27,8 @@ logoutClickEvent = (e) => {
   this.props.history.push('/');
 }
 
-componentDidMount() {
-  this.setLoading();
-}
-
   toggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
-  }
-
-  setLoading = () => {
-    this.timer = setInterval(() => {
-      this.setState({ loading: false });
-    }, 1000);
   }
 
   render() {
@@ -57,23 +46,22 @@ componentDidMount() {
         <Collapse isOpen={this.isOpen} navbar>
           <Nav className="link-container mr-auto" navbar>
             <NavItem>
-              {user && (
+              {dbUser?.is_registered && (
                 <Link to='/announcements' className="nav-link m-2" href="#">Announcements</Link>
               )}
             </NavItem>
             <NavItem>
-            {/* !dbUser.is_admin */}
-            {!dbUser.is_admin && (
+            {dbUser?.is_registered && !dbUser?.is_admin && (
                 <Link to='/assignments' className="nav-link m-2" href="#">Assignments</Link>
             )}
             </NavItem>
             <NavItem>
-            {user && (
+            {dbUser?.is_registered && (
               <Link to='/messages' className="nav-link m-2" href="#">Messages</Link>
             )}
             </NavItem>
             <NavItem>
-            {user && (
+            {dbUser?.is_registered && (
               <Link to='/profile' className="nav-link m-2" href="#">Profile</Link>
             )}
             </NavItem>
