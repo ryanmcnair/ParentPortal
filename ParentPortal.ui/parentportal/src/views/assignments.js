@@ -15,9 +15,9 @@ export default class Assignments extends React.Component {
 
     componentDidMount() {
       this.getClassroomAssignments();
-      this.setState({
-        dbUser: this.props.dbUser
-      });
+      // this.setState({
+      //   dbUser: this.props.dbUser
+      // });
     }
 
     setLoading = () => {
@@ -27,7 +27,7 @@ export default class Assignments extends React.Component {
     }
 
     getClassroomAssignments = () => {
-      assignmentData.getAllAssignmentsByClassroom(this.state.dbUser.classroom_id).then((response) => {
+      assignmentData.getAllAssignmentsByClassroom(this.state.dbUser?.classroom_id).then((response) => {
         this.setState({
           assignments: response
         });
@@ -57,7 +57,7 @@ export default class Assignments extends React.Component {
     render() {
       const { dbUser, assignments, loading } = this.state;
       let buttonRender;
-      if (dbUser.is_teacher === true) {
+      if (dbUser?.is_teacher === true) {
         buttonRender = (<Modal title={'Add Assignment'} buttonLabel={'Add Assignment'}>
         {<AssignmentForm dbUser={dbUser} addThis={this.addAssignment}/>}
       </Modal>);

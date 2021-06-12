@@ -23,6 +23,7 @@ class App extends React.Component {
         user.getIdToken().then((token) => {
           sessionStorage.setItem('token', token);
           this.setState({ user });
+          console.warn('first step', user);
         }).then(() => {
           this.setUserInState(this.state.user.uid);
         });
@@ -37,6 +38,7 @@ class App extends React.Component {
       this.setState({
         dbUser: response,
       });
+      console.warn('set user in state', this.state.dbUser);
     });
   }
 
@@ -48,7 +50,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <BrowserRouter>
-          <Navbar user={this.state.user} dbUser={this.state.dbUser} {...this.props} />
+          {this.state.user && (
+                <Navbar user={this.state.user} dbUser={this.state.dbUser} {...this.props} />
+          )}
           <Routes user={this.state.user} dbUser={this.state.dbUser} />
         </BrowserRouter>
       </div>

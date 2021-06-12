@@ -1,6 +1,6 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import AnnouncementCard from '../components/announcementCard';
 import announcementData from '../helpers/data/announcementData';
 import Modal from '../components/modal';
@@ -14,6 +14,12 @@ export default class Announcements extends React.Component {
     };
 
     componentDidMount() {
+      if (this.state.dbUser === null) {
+        console.log('if null setting again');
+        this.setState({
+          dbUser: this.props.dbUser
+        });
+      }
       this.getAllAnnouncements();
       this.getParentAnnouncements();
     }
@@ -61,12 +67,12 @@ export default class Announcements extends React.Component {
       const { announcements, parentsOnly, dbUser } = this.state;
       const renderAllAnnouncements = () => announcements.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} deleteThis={this.removeAnnouncements} updateThis={this.updateAnnouncements}/>));
       const renderParentAnnouncements = () => parentsOnly.map((announcement) => (<AnnouncementCard key={announcement.id} announcement={announcement} dbUser={dbUser} deleteThis={this.removeAnnouncements} updateThis={this.updateAnnouncements}/>));
-      if (dbUser.is_parent === true) {
+      if (dbUser?.is_parent === true) {
         announcementRender = renderParentAnnouncements();
       } else {
         announcementRender = renderAllAnnouncements();
       }
-      if (dbUser.is_admin === true) {
+      if (dbUser?.is_admin === true) {
         buttonRender = (<Modal title={'Add Announcement'} buttonLabel={'Add Announcement'}>
         {<AnnouncementForm dbUser={dbUser} addThis={this.addAnnouncement}/>}
       </Modal>);
