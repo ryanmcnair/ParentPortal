@@ -16,6 +16,7 @@ const getLikesByAssignmentAndUser = (assignmentId, userId) => new Promise((resol
 });
 
 const addLike = (data) => new Promise((resolve, reject) => {
+  console.warn('like data', data);
   const newObj = {
     assignment_id: data.assignment.id,
     user_id: data.dbUser.id,

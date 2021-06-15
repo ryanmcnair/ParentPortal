@@ -9,6 +9,7 @@ import likeData from '../helpers/data/likeData';
 
 export default class AssignmentCard extends React.Component {
   state = {
+    assignment: this.props.assignment,
     dbUser: this.props.dbUser,
     comments: [],
     comment: '',
@@ -76,6 +77,7 @@ export default class AssignmentCard extends React.Component {
   }
 
   postLike = (like) => {
+    console.warn('like', like);
     likeData.addLike(like).then(() => {
       this.getUserLikes(this.props.assignment.id, this.state.dbUser.id);
       this.getLikes(this.props.assignment.id);
