@@ -4,39 +4,29 @@ import assignmentData from '../helpers/data/assignmentData';
 import Modal from '../components/modal';
 import AssignmentForm from './assignmentForm';
 import AssignmentCard from '../components/assignmentCards';
-import Loader from '../components/loader';
 
 export default class Assignments extends React.Component {
     state = {
       dbUser: this.props.dbUser,
       assignments: [],
-      loading: true
+      counter: 0
     };
 
     componentDidMount() {
-      this.getClassroomAssignments();
-      // this.setState({
-      //   dbUser: this.props.dbUser
-      // });
-    }
-
-    setLoading = () => {
-      this.timer = setInterval(() => {
-        this.setState({ loading: false });
-      }, 1000);
+      if (this.props.dbUser) {
+        this.getClassroomAssignments();
+      }
     }
 
     getClassroomAssignments = () => {
-      assignmentData.getAllAssignmentsByClassroom(this.state.dbUser?.classroom_id).then((response) => {
-        this.setState({
-          assignments: response
-        });
+      assignmentData.getAllAssignmentsByClassroom(this.props.dbUser?.classroom_id).then((response) => {
+        this.setState({ counter: this.state.counter + 1 });
+        this.setState({ assignments: response }, () => console.warn('state', this.state));
       });
-      this.setLoading();
     }
 
-    addAssignment = (things) => {
-      assignmentData.addAssignment(things).then(() => {
+    addAssignment = (state) => {
+      assignmentData.addAssignment(state).then(() => {
         this.getClassroomAssignments();
       });
     }
@@ -48,14 +38,14 @@ export default class Assignments extends React.Component {
     }
 
     updateAssignments = (update) => {
+      console.warn('update', update);
       assignmentData.updateAssignment(update).then(() => {
         this.getClassroomAssignments();
-        this.setLoading();
       });
     }
 
     render() {
-      const { dbUser, assignments, loading } = this.state;
+      const { dbUser, assignments } = this.state;
       let buttonRender;
       if (dbUser?.is_teacher === true) {
         buttonRender = (<Modal title={'Add Assignment'} buttonLabel={'Add Assignment'}>
@@ -67,16 +57,13 @@ export default class Assignments extends React.Component {
       const renderAllAssignments = () => assignments?.map((assignment) => (<AssignmentCard key={assignment.id} assignment={assignment} dbUser={dbUser} deleteThis={this.removeAssignments} updateThis={this.updateAssignments} />));
       return (
         <>
-        { loading ? (<Loader />)
-          : (<>
             <h1>Assignments</h1>
             <div className='rendercards'>
               {buttonRender}
+              <div id="counter">{this.state.counter}</div>
               {renderAllAssignments()}
 
             </div>
-            </>)
-            }
             </>
       );
     }

@@ -23,7 +23,6 @@ class App extends React.Component {
         user.getIdToken().then((token) => {
           sessionStorage.setItem('token', token);
           this.setState({ user });
-          console.warn('first step', user);
         }).then(() => {
           this.setUserInState(this.state.user.uid);
         });
@@ -38,7 +37,6 @@ class App extends React.Component {
       this.setState({
         dbUser: response,
       });
-      console.warn('set user in state', this.state.dbUser);
     });
   }
 

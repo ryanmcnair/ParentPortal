@@ -10,7 +10,6 @@ import likeData from '../helpers/data/likeData';
 export default class AssignmentCard extends React.Component {
   state = {
     dbUser: this.props.dbUser,
-    assignment: this.props.assignment,
     comments: [],
     comment: '',
     likes: [],
@@ -19,9 +18,9 @@ export default class AssignmentCard extends React.Component {
   }
 
   componentDidMount() {
-    this.getComments(this.state.assignment.id);
-    this.getLikes(this.state.assignment.id);
-    this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
+    this.getComments(this.props.assignment.id);
+    this.getLikes(this.props.assignment.id);
+    this.getUserLikes(this.props.assignment.id, this.state.dbUser.id);
   }
 
   // Comments stuff below:
@@ -36,13 +35,13 @@ export default class AssignmentCard extends React.Component {
 
   postComment = (comment) => {
     commentData.addComment(comment).then(() => {
-      this.getComments(this.state.assignment.id);
+      this.getComments(this.props.assignment.id);
     });
   }
 
   removeComment = (id) => {
     commentData.deleteComment(id).then(() => {
-      this.getComments(this.state.assignment.id);
+      this.getComments(this.props.assignment.id);
     });
   }
 
@@ -78,15 +77,15 @@ export default class AssignmentCard extends React.Component {
 
   postLike = (like) => {
     likeData.addLike(like).then(() => {
-      this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
-      this.getLikes(this.state.assignment.id);
+      this.getUserLikes(this.props.assignment.id, this.state.dbUser.id);
+      this.getLikes(this.props.assignment.id);
     });
   }
 
   deleteLike = (id) => {
     likeData.deleteLike(id).then(() => {
-      this.getUserLikes(this.state.assignment.id, this.state.dbUser.id);
-      this.getLikes(this.state.assignment.id);
+      this.getUserLikes(this.props.assignment.id, this.state.dbUser.id);
+      this.getLikes(this.props.assignment.id);
     });
   }
 
@@ -102,8 +101,11 @@ export default class AssignmentCard extends React.Component {
 
   render() {
     const {
-      assignment, dbUser, comments, userLikes, likes
+      dbUser, comments, userLikes, likes
     } = this.state;
+
+    const { assignment } = this.props;
+
     const dateAdded = new Date(assignment.date_added);
     const dateDue = new Date(assignment.date_due);
 
