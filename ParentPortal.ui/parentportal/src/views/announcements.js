@@ -15,7 +15,6 @@ export default class Announcements extends React.Component {
 
     componentDidMount() {
       if (this.state.dbUser === null) {
-        console.log('if null setting again');
         this.setState({
           dbUser: this.props.dbUser
         });

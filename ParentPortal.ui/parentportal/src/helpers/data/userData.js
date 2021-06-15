@@ -22,7 +22,6 @@ const getUsersById = (id) => new Promise((resolve, reject) => {
 });
 
 const updateUsers = (data) => new Promise((resolve, reject) => {
-  console.warn('user update data', data);
   const newObj = {
     classroom_id: data.classroom_id,
     first_name: data.first_name,

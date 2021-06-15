@@ -18,20 +18,17 @@ const addAssignment = (data) => new Promise((resolve, reject) => {
     text: data.text,
     title: data.title
   };
-  axios.post(`${assignmentsUrl}`, newObj).then(resolve).catch((error) => reject(error));
+  return axios.post(`${assignmentsUrl}`, newObj).then(resolve).catch((error) => reject(error));
 });
 
-const updateAssignment = (data) => new Promise((resolve, reject) => {
-  const newObj = {
-    assignmentId: data.assignmentId,
-    classroom_id: data.dbUser.classroom_id,
-    teacher_id: data.dbUser.id,
-    pdf_url: data.pdf_url,
-    date_due: data.date_due,
-    text: data.text,
-    title: data.title
-  };
-  axios.patch(`${assignmentsUrl}/${data.assignmentId}/update`, newObj).then(resolve).catch((error) => reject(error));
+const updateAssignment = (data) => axios.patch(`${assignmentsUrl}/${data.assignmentId}/update`, {
+  assignmentId: data.assignmentId,
+  classroom_id: data.dbUser.classroom_id,
+  teacher_id: data.dbUser.id,
+  pdf_url: data.pdf_url,
+  date_due: data.date_due,
+  text: data.text,
+  title: data.title
 });
 
 const deleteAssignment = (id) => axios.delete(`${assignmentsUrl}/${id}`);
