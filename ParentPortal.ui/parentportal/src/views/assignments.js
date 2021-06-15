@@ -9,7 +9,6 @@ export default class Assignments extends React.Component {
     state = {
       dbUser: this.props.dbUser,
       assignments: [],
-      counter: 0
     };
 
     componentDidMount() {
@@ -20,7 +19,6 @@ export default class Assignments extends React.Component {
 
     getClassroomAssignments = () => {
       assignmentData.getAllAssignmentsByClassroom(this.props.dbUser?.classroom_id).then((response) => {
-        this.setState({ counter: this.state.counter + 1 });
         this.setState({ assignments: response }, () => console.warn('state', this.state));
       });
     }
@@ -60,7 +58,6 @@ export default class Assignments extends React.Component {
             <h1>Assignments</h1>
             <div className='rendercards'>
               {buttonRender}
-              <div id="counter">{this.state.counter}</div>
               {renderAllAssignments()}
 
             </div>
