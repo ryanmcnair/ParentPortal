@@ -1,1 +1,27 @@
-$favColor: lightpink;
+$favColor: ivory;
+
+.homeContainer {
+    margin-top: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing {
+    margin-top: 10vh;
+}
+
+.registration {
+    margin-top: 10vh;
+}
+
+.waiting {
+    margin-top: 10vh;
+}
+
+.admin {
+    width: 60%;
+    margin: 0 auto;
+    border: 15px black;
+    background-color: white;
+}

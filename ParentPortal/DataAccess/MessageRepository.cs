@@ -23,30 +23,36 @@ namespace ParentPortal.DataAccess
             return db.Query<Message>(sql).ToList();
         }
 
-        public List<Message> GetMessagesBySender(string fb_uid)
+        public List<Message> GetMessagesBySender(int id)
         {
             using var db = new SqlConnection(ConnectionString);
 
-            var sql = @"SELECT m.id, m.sender_id, m.recipient_id, m.message
+            var sql = @"SELECT m.*, us.first_name as sender_first, us.last_name as sender_last, ur.first_name as recipient_first, ur.last_name as recipient_last
                         FROM message m
-	                        join [user] u
-	                        ON m.sender_id = u.id
-		                        WHERE u.fb_uid = @fb_uid";
+	                        JOIN [user] us
+	                        ON m.sender_id = us.id
+	                        JOIN [user] ur
+	                        ON m.recipient_id = ur.id
+		                        WHERE us.id = @id
+		                        ORDER BY m.id ASC";
 
-            return db.Query<Message>(sql, new { fb_uid = fb_uid }).ToList();
+            return db.Query<Message>(sql, new { id = id }).ToList();
         }
 
-        public List<Message> GetMessagesByRecipient(string fb_uid)
+        public List<Message> GetMessagesByRecipient(int id)
         {
             using var db = new SqlConnection(ConnectionString);
 
-            var sql = @"SELECT m.id, m.sender_id, m.recipient_id, m.message
+            var sql = @"SELECT m.*, ur.first_name as recipient_first, ur.last_name as recipient_last, us.first_name as sender_first, us.last_name as sender_last
                         FROM message m
-	                        join [user] u
-	                         ON m.recipient_id = u.id
-	                        	WHERE u.fb_uid = @fb_uid";
+	                        JOIN [user] ur
+	                        ON m.recipient_id = ur.id
+	                        JOIN [user] us
+	                        ON m.sender_id = us.id
+		                        WHERE ur.id = @id
+		                        ORDER BY m.id ASC";
 
-            return db.Query<Message>(sql, new { fb_uid = fb_uid }).ToList();
+            return db.Query<Message>(sql, new { id = id }).ToList();
         }
 
         public void Add(Message message)

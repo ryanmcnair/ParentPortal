@@ -90,8 +90,8 @@ class Registration extends React.Component {
         onChange={this.handleChange}>{child.student_name}</option>
       ));
       return (
-            <>
-            <h1>Registration page</h1>
+            <div className='registration'>
+            <h2>Registration</h2>
             <Form>
                 <div className='classChoice'>
                  <h3>Choose your class:</h3>
@@ -112,7 +112,7 @@ class Registration extends React.Component {
                   Submit and Sign In
                 </Button>
             </Form>
-            </>
+            </div>
       );
     }
 }

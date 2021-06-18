@@ -48,22 +48,26 @@ export default class Profile extends React.Component {
       const renderApprovals = () => unregisteredUsers?.map((user) => (
             <>
             <div key={user.id}>Parent: {user.first_name} {user.last_name} --- Student: {user.student_name} --- Class: {user.class_name}</div>
-            <p></p>
-            <p></p>
-            <p></p>
             <Button color='success' onClick={() => (this.approveUser(user))}>Approve</Button> <Button color='danger' onClick={() => (this.deleteUser(user.id))}>Deny</Button>
+            <br/>
+            <br/>
             </>
       ));
       return (
             <>
-            <h1>Profile Page</h1>
-            {dbUser?.is_admin ? <div>{renderApprovals()}</div> : <div></div>}
+            <h1>Profile</h1>
             <div className='profile-card'>
                 <p>Name: {profile.first_name} {profile.last_name}</p>
                 <p>Email address: {profile.email}</p>
                 <p>Your student: {profile.student_name}</p>
                 <p>Your class: {profile.class_name}</p>
             </div>
+            {dbUser?.is_admin
+              ? <div className='admin'>
+                <h2>Administration:</h2>
+                {renderApprovals()}
+                </div>
+              : <div></div>}
             </>
       );
     }

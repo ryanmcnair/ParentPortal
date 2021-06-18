@@ -77,7 +77,6 @@ export default class AssignmentCard extends React.Component {
   }
 
   postLike = (like) => {
-    console.warn('like', like);
     likeData.addLike(like).then(() => {
       this.getUserLikes(this.props.assignment.id, this.state.dbUser.id);
       this.getLikes(this.props.assignment.id);
@@ -111,8 +110,6 @@ export default class AssignmentCard extends React.Component {
     const dateAdded = new Date(assignment.date_added);
     const dateDue = new Date(assignment.date_due);
 
-    // const checkLikeUsers = (like) => like.user_id === dbUser.id;
-
     const renderLikes = () => userLikes?.map((like) => (
       <>
       <div key={like.id} className='fas fa-check'></div>
@@ -127,18 +124,22 @@ export default class AssignmentCard extends React.Component {
 
     const renderComments = () => comments?.map((comment) => (
     <>
-    <h5>{comment.first_name} {comment.last_name}:</h5>
-    <p key={comment.id} >{comment.comment}</p>
-    {dbUser.last_name === comment.last_name ? <Button className='btn-danger' onClick={() => this.removeComment(comment.id)}>X</Button> : <div></div>}
+    <div className='commentBox'>
+    <h5 className='commentName'>{comment.first_name} {comment.last_name}:</h5>
+      <div className='commentAndDelete'>
+        <p key={comment.id} >{comment.comment}</p>
+        {dbUser.last_name === comment.last_name ? <Button className='btn-danger' onClick={() => this.removeComment(comment.id)}>X</Button> : <div></div>}
+      </div>
+    </div>
     </>));
     return (
     <div>
         <div className='card m-2'>
-          <img src={assignment.pdf_url} alt=''></img>
           <h1>{assignment.title}</h1>
           <h2 className='card-title'>{assignment.text}</h2>
+          <p className='dueDate'>Date Due: {dateDue.toDateString()}</p>
+          <img src={assignment.pdf_url} alt='assignment-image' className='assignmentImage'></img>
           <p>Date added: {dateAdded.toDateString()}</p>
-          <p>Date Due: {dateDue.toDateString()}</p>
           {dbUser.is_teacher ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
                     {<AssignmentFormUpdate dbUser={dbUser} assignment={assignment} deleteThis={this.props.deleteThis} updateThis={this.props.updateThis}/>}
                   </Modal> : <div></div>}
@@ -155,6 +156,7 @@ export default class AssignmentCard extends React.Component {
               <input style= {{ width: '90%' }} type='text' name='comment' placeholder='add a comment...' value={this.state.comment} onChange={this.handleChange}></input>
               <button style= {{ width: '9%' }}>Post</button>
             </form>
+            <br/>
           </div>
         </div>
     </div>
