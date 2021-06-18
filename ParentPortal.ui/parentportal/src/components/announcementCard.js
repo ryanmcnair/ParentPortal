@@ -16,9 +16,9 @@ export default function AnnouncementCard({
   return (
     <div>
         <div className='card m-2'>
-          <img src={announcement.pdf_url} alt=''></img>
           <h1>{announcement.title}</h1>
           <h3 className='card-title'>{announcement.text}</h3>
+          <img src={announcement.pdf_url} alt=''></img>
           <p>Date added: {dateAdded.toDateString()}</p>
           {dbUser?.is_admin ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
                     {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} deleteThis={deleteThis} updateThis={updateThis}/>}

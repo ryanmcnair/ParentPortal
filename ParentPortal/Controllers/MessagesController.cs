@@ -26,10 +26,10 @@ namespace ParentPortal.Controllers
             return Ok(_repo.GetAll());
         }
 
-        [HttpGet("{senderFb_uid}/sent")]
-        public IActionResult GetMessagesBySender(string senderFb_uid)
+        [HttpGet("{id}/sent")]
+        public IActionResult GetMessagesBySender(int id)
         {
-            var message = _repo.GetMessagesBySender(senderFb_uid);
+            var message = _repo.GetMessagesBySender(id);
             if (message == null)
             {
                 return NotFound("Not found");
@@ -37,10 +37,10 @@ namespace ParentPortal.Controllers
             return Ok(message);
         }
 
-        [HttpGet("{recipientFb_uid}/inbox")]
-        public IActionResult GetMessagesByRecipient(string recipientFb_uid)
+        [HttpGet("{id}/inbox")]
+        public IActionResult GetMessagesByRecipient(int id)
         {
-            var message = _repo.GetMessagesByRecipient(recipientFb_uid);
+            var message = _repo.GetMessagesByRecipient(id);
             if (message == null)
             {
                 return NotFound("Not found");

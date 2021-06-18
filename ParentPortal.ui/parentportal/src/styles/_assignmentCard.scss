@@ -10,3 +10,18 @@
     border: 15px black;
     background-color: white;
  }
+
+ .card {
+    margin-bottom: 15vh;
+ }
+
+ .dueDate {
+    font-size: x-large;
+    font-weight: bold;
+ }
+
+ .assignmentImage {
+   background-size: cover;
+   background-position: center;
+   object-fit: contain;
+}

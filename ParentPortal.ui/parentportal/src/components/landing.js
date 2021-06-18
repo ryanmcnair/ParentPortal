@@ -6,10 +6,11 @@ export default class Landing extends React.Component {
 
     render() {
       return (
-            <>
-            <h1>Landing Page</h1>
+            <div className='landing'>
+            <h1>Welcome to the Parent Portal</h1>
+            <p>First time users, please register</p>
             <Auth />
-            </>
+            </div>
       );
     }
 }

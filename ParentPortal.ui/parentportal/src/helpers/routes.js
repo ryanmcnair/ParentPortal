@@ -14,14 +14,13 @@ import Waiting from '../views/waiting';
 export default function Routes({ user, dbUser }) {
   return (
         <Switch>
-          {/* {!user ? <Route exact path='/' component={(props) => <Landing user={user} {...props}/>}/> : <Route exact path='/' component={(props) => <Home user={user} dbUser={dbUser} {...props}/>}/>} */}
           {!user ? <Route exact path='/' component={(props) => <Landing user={user} {...props}/>}/>
             : !dbUser?.is_registered ? <Route exact path='/' component={(props) => <Waiting user={user} dbUser={dbUser} {...props}/>}/>
               : <Route exact path='/' component={(props) => <Home user={user} dbUser={dbUser} {...props}/>}/>}
             <Route exact path='/register' component={(props) => <Register user={user} {...props}/>}/>
             <Route exact path='/announcements' component={(props) => <Announcements user={user} dbUser={dbUser} {...props}/>}/>
             <Route exact path='/assignments' component={(props) => <Assignments user={user} dbUser={dbUser} {...props}/>}/>
-            <Route exact path='/messages' component={(props) => <Messages user={user} {...props}/>}/>
+            <Route exact path='/messages' component={(props) => <Messages user={user} dbUser={dbUser} {...props}/>}/>
             <Route exact path='/profile' component={(props) => <Profile user={user} dbUser={dbUser} {...props}/>}/>
         </Switch>
   );

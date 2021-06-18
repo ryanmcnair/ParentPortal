@@ -2,17 +2,18 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import firebase from 'firebase/app';
+// import {
+//   Collapse,
+//   Navbar,
+//   NavbarBrand,
+//   Nav,
+//   NavItem,
+//   NavbarText,
+// } from 'reactstrap';
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
   Nav,
-  NavItem,
-  NavbarText,
-} from 'reactstrap';
+} from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
-import Loader from './loader';
 
 // pass user as parameter when user auth is setup
 class MyNavbar extends React.Component {
@@ -33,50 +34,45 @@ logoutClickEvent = (e) => {
 
   render() {
     const { user, dbUser } = this.props;
-    const { loading } = this.state;
+
     return (
       <>
-      { loading ? (<Loader />)
-        : (<div>
-      <Navbar color="warning" expand="lg">
-        <NavbarBrand className='gradient-text'>
-          <Link to='/' className='nav-link'>Parent Portal</Link>
-        </NavbarBrand>
-        <NavbarToggler onClick={this.toggle} className='custom-toggler'/>
-        <Collapse isOpen={this.isOpen} navbar>
+      <div className='navbar'>
+      <Nav expand="lg" fill variant="tabs">
           <Nav className="link-container mr-auto" navbar>
-            <NavItem>
+            <Nav.Item className=''>
+              <Link to='/' className='nav-link m-2'>Parent Portal</Link>
+            </Nav.Item>
+            <Nav.Item>
               {dbUser?.is_registered && (
                 <Link to='/announcements' className="nav-link m-2" href="#">Announcements</Link>
               )}
-            </NavItem>
-            <NavItem>
+            </Nav.Item>
+            <Nav.Item>
             {dbUser?.is_registered && !dbUser?.is_admin && (
                 <Link to='/assignments' className="nav-link m-2" href="#">Assignments</Link>
             )}
-            </NavItem>
-            <NavItem>
+            </Nav.Item>
+            <Nav.Item>
             {dbUser?.is_registered && (
               <Link to='/messages' className="nav-link m-2" href="#">Messages</Link>
             )}
-            </NavItem>
-            <NavItem>
+            </Nav.Item>
+            <Nav.Item>
             {dbUser?.is_registered && (
               <Link to='/profile' className="nav-link m-2" href="#">Profile</Link>
             )}
-            </NavItem>
+            </Nav.Item>
           </Nav>
-          <NavbarText>
-            <div className="form-inline my-2 my-lg-0">
+          <Nav.Item>
+            <div className='logOutButton'>
                 {user && (
-                  <button className="nav-link btn btn-outline-primary" onClick={this.logoutClickEvent}>Logout</button>
+                  <Link className="nav-link m-2" onClick={this.logoutClickEvent}>Logout</Link>
                 )}
             </div>
-          </NavbarText>
-        </Collapse>
-      </Navbar>
-    </div>)
-        }
+          </Nav.Item>
+      </Nav>
+    </div>
         </>
     );
   }

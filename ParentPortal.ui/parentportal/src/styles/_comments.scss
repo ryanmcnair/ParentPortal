@@ -1,0 +1,11 @@
+.commentName {
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.commentAndDelete {
+    display: flex;
+    justify-content: space-between;
+    font-style: italic;
+}
