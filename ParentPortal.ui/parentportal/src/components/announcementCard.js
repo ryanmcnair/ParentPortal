@@ -15,8 +15,8 @@ export default function AnnouncementCard({
 
   return (
     <div>
-        <div className='card m-2'>
-          <h1>{announcement.title}</h1>
+        {announcement?.staff_only ? <div className='card m-2'style= {{ backgroundColor: 'red' }}>
+        <h1>{announcement.title}</h1>
           <h3 className='card-title'>{announcement.text}</h3>
           <img src={announcement.pdf_url} alt=''></img>
           <p>Date added: {dateAdded.toDateString()}</p>
@@ -24,6 +24,15 @@ export default function AnnouncementCard({
                     {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} deleteThis={deleteThis} updateThis={updateThis}/>}
                   </Modal> : <div></div>}
         </div>
+          : <div className='card m-2'>
+            <h1>{announcement.title}</h1>
+          <h3 className='card-title'>{announcement.text}</h3>
+          <img src={announcement.pdf_url} alt=''></img>
+          <p>Date added: {dateAdded.toDateString()}</p>
+          {dbUser?.is_admin ? <Modal title={'Update/Delete'} buttonLabel={'Update/Delete'}>
+                    {<AnnouncementFormUpdate dbUser={dbUser} announcement={announcement} deleteThis={deleteThis} updateThis={updateThis}/>}
+                  </Modal> : <div></div>}
+            </div>}
         </div>
   );
 }
