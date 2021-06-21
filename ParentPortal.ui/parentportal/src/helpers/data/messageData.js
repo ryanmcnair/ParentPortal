@@ -3,18 +3,19 @@ import { baseUrl } from '../config.json';
 
 const messagesUrl = `${baseUrl}/messages`;
 
-const getIncomingMessages = (id) => new Promise((resolve, reject) => {
-  axios.get(`${messagesUrl}/${id}/inbox`).then((response) => {
+const getMessages = () => new Promise((resolve, reject) => {
+  axios.get(`${messagesUrl}`).then((response) => {
     resolve(Object.values(response.data));
   }).catch((error) => reject(error));
 });
 
-const getOutgoingMessages = (id) => new Promise((resolve, reject) => {
-  axios.get(`${messagesUrl}/${id}/sent`).then((response) => {
-    resolve(Object.values(response.data));
-  }).catch((error) => reject(error));
+const addMessage = (data) => new Promise((resolve, reject) => {
+  const newObj = {
+    user_id: data.dbUser.id,
+    text: data.text,
+    title: data.title
+  };
+  return axios.post(`${messagesUrl}`, newObj).then(resolve).catch((error) => reject(error));
 });
 
-export default {
-  getIncomingMessages, getOutgoingMessages
-};
+export default { getMessages, addMessage };

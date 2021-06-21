@@ -1,47 +1,44 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import Sidebar from '../components/sideBar';
+import React, { Component } from 'react';
 import messageData from '../helpers/data/messageData';
+import MessageAccordian from '../components/messageAccordian';
+import Modal from '../components/modal';
+import MessageAddForm from './messageAddForm';
 
-export default class Messages extends React.Component {
-    state = {
-      dbUser: [],
-      incomingMessages: [],
-      outgoingMessages: []
-    };
+export default class Messages extends Component {
+  state={}
 
-    componentDidMount() {
+  componentDidMount() {
+    this.setState({
+      dbUser: this.props.dbUser
+    });
+    this.getTheMessages();
+  }
+
+  getTheMessages = () => {
+    messageData.getMessages().then((response) => {
       this.setState({
-        dbUser: this.props.dbUser
+        messages: response
       });
-      if (this.state.dbUser) {
-        this.getUserMessages();
-        this.getSentMessages();
-      }
-    }
+    });
+  }
 
-    getUserMessages = () => {
-      messageData.getIncomingMessages(this.props.dbUser?.id).then((response) => {
-        this.setState({
-          incomingMessages: response
-        });
-      });
-    }
+  addMessage = (state) => {
+    messageData.addMessage(state).then(() => {
+      this.getTheMessages();
+    });
+  }
 
-    getSentMessages = () => {
-      messageData.getOutgoingMessages(this.props.dbUser?.id).then((response) => {
-        this.setState({
-          outgoingMessages: response
-        });
-      });
-    }
-
-    render() {
-      return (
-            <>
-            <Sidebar />
-            <h1>Messages Page</h1>
-            </>
-      );
-    }
+  render() {
+    const { messages, dbUser } = this.state;
+    const renderTheMessages = () => messages?.map((message) => (<MessageAccordian key={message.id} message={message}/>));
+    return (
+      <div>
+        <Modal title={'New Post'} buttonLabel={'New Post'}>
+          {<MessageAddForm dbUser={dbUser} addThis={this.addMessage}/>}
+        </Modal>
+        {renderTheMessages()}
+      </div>
+    );
+  }
 }

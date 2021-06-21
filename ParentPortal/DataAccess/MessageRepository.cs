@@ -13,14 +13,17 @@ namespace ParentPortal.DataAccess
     {
         const string ConnectionString = "Server=localhost;Database=ParentPortal;Trusted_Connection=True;";
 
-        public List<Message> GetAll()
+        public List<MessageComment> GetAll()
         {
             using var db = new SqlConnection(ConnectionString);
 
-            var sql = @"SELECT *
-                        FROM message";
+            var sql = @"SELECT m.*, u.first_name, u.last_name
+                        FROM message m
+	                        JOIN [user] u
+	                        ON m.user_id = u.id
+		                    ORDER BY m.id DESC";
 
-            return db.Query<Message>(sql).ToList();
+            return db.Query<MessageComment>(sql).ToList();
         }
 
         public List<Message> GetMessagesBySender(int id)
@@ -58,12 +61,12 @@ namespace ParentPortal.DataAccess
         public void Add(Message message)
         {
             var sql = @"INSERT INTO [dbo].[message]
-                        ([sender_id]
-                         ,[recipient_id]
-                         ,[message])
+                        ([user_id]
+                         ,[title]
+                         ,[text])
                         OUTPUT INSERTED.id 
                         VALUES
-                        (@sender_id, @recipient_id, @message)";
+                        (@user_id, @title, @text)";
 
             using var db = new SqlConnection(ConnectionString);
 

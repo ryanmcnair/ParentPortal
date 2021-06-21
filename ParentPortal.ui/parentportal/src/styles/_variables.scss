@@ -19,6 +19,13 @@ $favColor: ivory;
     margin-top: 10vh;
 }
 
+.messageBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -13vh;
+}
+
 .admin {
     width: 60%;
     margin: 0 auto;
