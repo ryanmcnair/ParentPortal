@@ -1,47 +1,33 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import Sidebar from '../components/sideBar';
+import React, { Component } from 'react';
 import messageData from '../helpers/data/messageData';
+import MessageAccordian from '../components/messageAccordian';
 
-export default class Messages extends React.Component {
-    state = {
-      dbUser: [],
-      incomingMessages: [],
-      outgoingMessages: []
-    };
+export default class Messages extends Component {
+  state={}
 
-    componentDidMount() {
+  componentDidMount() {
+    this.setState({
+      dbUser: this.props.dbUser
+    });
+    this.getTheMessages();
+  }
+
+  getTheMessages = () => {
+    messageData.getMessages().then((response) => {
       this.setState({
-        dbUser: this.props.dbUser
+        messages: response
       });
-      if (this.state.dbUser) {
-        this.getUserMessages();
-        this.getSentMessages();
-      }
-    }
+    });
+  }
 
-    getUserMessages = () => {
-      messageData.getIncomingMessages(this.props.dbUser?.id).then((response) => {
-        this.setState({
-          incomingMessages: response
-        });
-      });
-    }
-
-    getSentMessages = () => {
-      messageData.getOutgoingMessages(this.props.dbUser?.id).then((response) => {
-        this.setState({
-          outgoingMessages: response
-        });
-      });
-    }
-
-    render() {
-      return (
-            <>
-            <Sidebar />
-            <h1>Messages Page</h1>
-            </>
-      );
-    }
+  render() {
+    const { messages } = this.state;
+    const renderTheMessages = () => messages?.map((message) => (<MessageAccordian key={message.id} message={message}/>));
+    return (
+      <div>
+        {renderTheMessages()}
+      </div>
+    );
+  }
 }
