@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import messageData from '../helpers/data/messageData';
 import MessageAccordian from '../components/messageAccordian';
+import Modal from '../components/modal';
+import MessageAddForm from './messageAddForm';
 
 export default class Messages extends Component {
   state={}
@@ -21,11 +23,20 @@ export default class Messages extends Component {
     });
   }
 
+  addMessage = (state) => {
+    messageData.addMessage(state).then(() => {
+      this.getTheMessages();
+    });
+  }
+
   render() {
-    const { messages } = this.state;
+    const { messages, dbUser } = this.state;
     const renderTheMessages = () => messages?.map((message) => (<MessageAccordian key={message.id} message={message}/>));
     return (
       <div>
+        <Modal title={'New Post'} buttonLabel={'New Post'}>
+          {<MessageAddForm dbUser={dbUser} addThis={this.addMessage}/>}
+        </Modal>
         {renderTheMessages()}
       </div>
     );

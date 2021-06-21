@@ -9,4 +9,13 @@ const getMessages = () => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
-export default { getMessages };
+const addMessage = (data) => new Promise((resolve, reject) => {
+  const newObj = {
+    user_id: data.dbUser.id,
+    text: data.text,
+    title: data.title
+  };
+  return axios.post(`${messagesUrl}`, newObj).then(resolve).catch((error) => reject(error));
+});
+
+export default { getMessages, addMessage };

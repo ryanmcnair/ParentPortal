@@ -23,7 +23,10 @@ export default class MessageAccordian extends Component {
                 <Card>
                     <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        {message?.title}
+                        <div className='accordianTitle'>
+                            <div>{message?.title}</div>
+                            <div>posted by: {message?.first_name} {message?.last_name}</div>
+                         </div>
                     </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="0">
