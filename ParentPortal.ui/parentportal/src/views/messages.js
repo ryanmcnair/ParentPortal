@@ -29,11 +29,18 @@ export default class Messages extends Component {
     });
   }
 
+  removeMessage = (id) => {
+    messageData.deleteMessage(id).then(() => {
+      this.getTheMessages();
+    });
+  }
+
   render() {
     const { messages, dbUser } = this.state;
-    const renderTheMessages = () => messages?.map((message) => (<MessageAccordian key={message.id} message={message}/>));
+    const renderTheMessages = () => messages?.map((message) => (<MessageAccordian key={message.id} dbUser={dbUser} message={message} deleteThis={this.removeMessage}/>));
     return (
       <div>
+        <h1>Message Board</h1>
         <Modal title={'New Post'} buttonLabel={'New Post'}>
           {<MessageAddForm dbUser={dbUser} addThis={this.addMessage}/>}
         </Modal>

@@ -18,4 +18,6 @@ const addMessage = (data) => new Promise((resolve, reject) => {
   return axios.post(`${messagesUrl}`, newObj).then(resolve).catch((error) => reject(error));
 });
 
-export default { getMessages, addMessage };
+const deleteMessage = (id) => axios.delete(`${messagesUrl}/${id}`);
+
+export default { getMessages, addMessage, deleteMessage };

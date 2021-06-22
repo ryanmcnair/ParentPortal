@@ -15,7 +15,7 @@ export default class MessageAccordian extends Component {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, dbUser } = this.props;
     return (
             <>
             <div className='messageBox'>
@@ -25,7 +25,7 @@ export default class MessageAccordian extends Component {
                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
                         <div className='accordianTitle'>
                             <div>{message?.title}</div>
-                            <div>posted by: {message?.first_name} {message?.last_name}</div>
+                            <div>posted by: {message?.first_name} {message?.last_name}  {dbUser?.last_name === message?.last_name ? <Button className='btn-danger' onClick={() => this.props.deleteThis(message.id)}>X</Button> : <div></div>}</div>
                          </div>
                     </Accordion.Toggle>
                     </Card.Header>

@@ -26,38 +26,6 @@ namespace ParentPortal.DataAccess
             return db.Query<MessageComment>(sql).ToList();
         }
 
-        public List<Message> GetMessagesBySender(int id)
-        {
-            using var db = new SqlConnection(ConnectionString);
-
-            var sql = @"SELECT m.*, us.first_name as sender_first, us.last_name as sender_last, ur.first_name as recipient_first, ur.last_name as recipient_last
-                        FROM message m
-	                        JOIN [user] us
-	                        ON m.sender_id = us.id
-	                        JOIN [user] ur
-	                        ON m.recipient_id = ur.id
-		                        WHERE us.id = @id
-		                        ORDER BY m.id ASC";
-
-            return db.Query<Message>(sql, new { id = id }).ToList();
-        }
-
-        public List<Message> GetMessagesByRecipient(int id)
-        {
-            using var db = new SqlConnection(ConnectionString);
-
-            var sql = @"SELECT m.*, ur.first_name as recipient_first, ur.last_name as recipient_last, us.first_name as sender_first, us.last_name as sender_last
-                        FROM message m
-	                        JOIN [user] ur
-	                        ON m.recipient_id = ur.id
-	                        JOIN [user] us
-	                        ON m.sender_id = us.id
-		                        WHERE ur.id = @id
-		                        ORDER BY m.id ASC";
-
-            return db.Query<Message>(sql, new { id = id }).ToList();
-        }
-
         public void Add(Message message)
         {
             var sql = @"INSERT INTO [dbo].[message]
