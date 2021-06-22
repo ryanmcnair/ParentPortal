@@ -79,7 +79,7 @@ export default class MessageAccordian extends Component {
                     <Card.Body>
                         <div>{message?.text}</div>
                         <br/>
-                        <br/>
+                        <h3>Comments</h3>
                         <div>{renderComments()}</div>
                         <br/>
                         <form onSubmit={this.handleSubmit} >
