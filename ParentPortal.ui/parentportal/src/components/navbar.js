@@ -55,7 +55,7 @@ logoutClickEvent = (e) => {
             </Nav.Item>
             <Nav.Item>
             {dbUser?.is_registered && (
-              <Link to='/messages' className="nav-link m-2" href="#">Messages</Link>
+              <Link to='/messages' className="nav-link m-2" href="#">Message Board</Link>
             )}
             </Nav.Item>
             <Nav.Item>

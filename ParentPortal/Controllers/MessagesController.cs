@@ -26,28 +26,6 @@ namespace ParentPortal.Controllers
             return Ok(_repo.GetAll());
         }
 
-        [HttpGet("{id}/sent")]
-        public IActionResult GetMessagesBySender(int id)
-        {
-            var message = _repo.GetMessagesBySender(id);
-            if (message == null)
-            {
-                return NotFound("Not found");
-            }
-            return Ok(message);
-        }
-
-        [HttpGet("{id}/inbox")]
-        public IActionResult GetMessagesByRecipient(int id)
-        {
-            var message = _repo.GetMessagesByRecipient(id);
-            if (message == null)
-            {
-                return NotFound("Not found");
-            }
-            return Ok(message);
-        }
-
         [HttpPost]
         public IActionResult AddAUser(Message message)
         {
