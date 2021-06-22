@@ -9,7 +9,7 @@ namespace ParentPortal.Models
     {
         public int id { get; set; }
         public int message_id { get; set; }
-        public string user_id { get; set; }
+        public int user_id { get; set; }
         public string comment { get; set; }
     }
 }

@@ -11,6 +11,16 @@ const getCommentsByMessage = (id) => new Promise((resolve, reject) => {
 
 const deleteComment = (id) => axios.delete(`${messageCommentsUrl}/${id}`);
 
+const addComment = (data) => new Promise((resolve, reject) => {
+  const newObj = {
+    message_id: data.message.id,
+    user_id: data.dbUser.id,
+    comment: data.comment
+  };
+  console.warn('message comment data', newObj);
+  axios.post(`${messageCommentsUrl}`, newObj).then(resolve).catch((error) => reject(error));
+});
+
 export default {
-  getCommentsByMessage, deleteComment
+  getCommentsByMessage, deleteComment, addComment
 };

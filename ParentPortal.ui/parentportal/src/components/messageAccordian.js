@@ -11,7 +11,8 @@ export default class MessageAccordian extends Component {
 
   componentDidMount() {
     this.setState({
-      message: this.props.message
+      message: this.props.message,
+      dbUser: this.props.dbUser
     });
     this.getComments(this.props.message.id);
   }
@@ -30,16 +31,34 @@ export default class MessageAccordian extends Component {
     });
   }
 
+  postComment = (comment) => {
+    messageCommentData.addComment(comment).then(() => {
+      this.getComments(this.props.message.id);
+    });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.postComment(this.state);
+    this.setState({ comment: '' });
+  }
+
   render() {
     const { message, dbUser } = this.props;
     const { comments } = this.state;
     const renderComments = () => comments?.map((comment) => (
         <>
         <div className='messageCommentBox'>
-        <h5 className='commentName'>{comment.first_name} {comment.last_name}:</h5>
+        <h5 className='commentName'>{comment?.first_name} {comment?.last_name}:</h5>
           <div className='commentAndDelete'>
-            <p key={comment.id} >{comment.comment}</p>
-            {dbUser.last_name === comment.last_name ? <Button className='btn-danger' onClick={() => this.removeComment(comment.id)}>X</Button> : <div></div>}
+            <p key={comment?.id} >{comment?.comment}</p>
+            {dbUser?.last_name === comment?.last_name ? <Button className='btn-danger' onClick={() => this.removeComment(comment?.id)}>X</Button> : <div></div>}
           </div>
         </div>
         </>));
@@ -62,6 +81,11 @@ export default class MessageAccordian extends Component {
                         <br/>
                         <br/>
                         <div>{renderComments()}</div>
+                        <br/>
+                        <form onSubmit={this.handleSubmit} >
+                            <input style= {{ width: '90%' }} type='text' name='comment' placeholder='add a comment...' value={this.state.comment} onChange={this.handleChange}></input>
+                            <button style= {{ width: '9%' }}>Post</button>
+                        </form>
                     </Card.Body>
                     </Accordion.Collapse>
                     </Card>
