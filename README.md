@@ -9,7 +9,7 @@ Teachers are able to view "staff only" announcements from the school as well as 
 Administration is able to view and post new announcements but these users do not have access to assignments. They are also responsible for approving or denying new user requests under the Profile section.
 
 ## Video Walkthrough
-<div style="position: relative; padding-bottom: 62.5%; height: 0;"><iframe src="https://www.loom.com/embed/e66e2c9345ca4a64b7143674d878ca76" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+[![Parent Portal video image](https://user-images.githubusercontent.com/67588177/123132901-d7ce7b80-d414-11eb-8359-081beb154e90.png)](https://www.loom.com/share/e66e2c9345ca4a64b7143674d878ca76)
 
 ## ERD
 
