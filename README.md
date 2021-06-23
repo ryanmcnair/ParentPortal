@@ -1,6 +1,6 @@
 # ParentPortal
 
-A communication medium allowing users - teachers, parents & school administration, to collaborate and communicate student assignments and school administration notes. I was motivated to build the project after talking to a family member about how difficult it was to keep in contact with her child's teacher during the 2020 pandemic. 
+A full stack communication medium allowing users - teachers, parents & school administration, to collaborate and communicate student assignments and school administration announcements. I was motivated to build the project after talking to a family member about how difficult it was to keep in contact with her child's teacher during the Coronavirus pandemic. 
 
 Parents can view announcements sent by adminstration staff. They are also able to view assignments posted by teachers with the ability to 'acknowledge' the assignment and comment on it. There is a school wide message board for parents, teachers and staff to communicate items not specific to announcements or assignments. 
 
